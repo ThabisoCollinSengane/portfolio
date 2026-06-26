@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thabiso Collins Engane — Web & App Developer</title>
+<meta name="description" content="South African full-stack developer building fast, modern web apps and e-commerce stores. Hire me for your next project.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0d0d0d;
+    --white: #f9f8f6;
+    --accent: #2563eb;
+    --accent-light: #3b82f6;
+    --gold: #d4a847;
+    --grey: #6b7280;
+    --grey-light: #f3f4f6;
+    --grey-border: #e5e7eb;
+    --green: #16a34a;
+    --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--white); color: var(--black); line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(249,248,246,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--grey-border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 58px;
+  }
+  .nav-logo { font-weight: 700; font-size: 17px; color: var(--black); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { text-decoration: none; color: var(--grey); font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta {
+    background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 6px;
+    text-decoration: none; font-size: 14px; font-weight: 600; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-light); }
+
+  /* HERO */
+  .hero {
+    max-width: 800px; margin: 0 auto; padding: 96px 32px 80px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #eff6ff; color: var(--accent); border: 1px solid #bfdbfe;
+    padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .hero-badge .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero h1 {
+    font-size: clamp(36px, 7vw, 64px); font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.03em; margin-bottom: 20px;
+  }
+  .hero h1 .hi { color: var(--grey); font-weight: 400; font-size: 0.55em; display: block; margin-bottom: 6px; letter-spacing: 0; }
+  .hero h1 .name { color: var(--accent); }
+  .hero p { font-size: 18px; color: var(--grey); max-width: 540px; margin: 0 auto 32px; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff; padding: 13px 28px; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: 15px; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--white); color: var(--black); padding: 13px 28px; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: 15px; border: 1.5px solid var(--grey-border);
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATS */
+  .stats {
+    border-top: 1px solid var(--grey-border); border-bottom: 1px solid var(--grey-border);
+    background: var(--grey-light); padding: 32px;
+    display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--black); letter-spacing: -0.02em; line-height: 1; }
+  .stat-label { font-size: 13px; color: var(--grey); margin-top: 4px; }
+
+  /* SECTION */
+  section { padding: 80px 32px; max-width: 1080px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 8px;
+  }
+  .section-title { font-size: clamp(24px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .section-sub { font-size: 16px; color: var(--grey); max-width: 480px; margin-bottom: 48px; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+  .project-card {
+    border: 1.5px solid var(--grey-border); border-radius: var(--radius); overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s; background: var(--white);
+  }
+  .project-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); transform: translateY(-3px); }
+  .project-thumb {
+    width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+    font-size: 56px; position: relative; overflow: hidden;
+  }
+  .project-thumb.pulsify { background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 100%); }
+  .project-thumb.mzansi { background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%); }
+  .project-thumb.totallydiff { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); }
+  .project-body { padding: 20px; }
+  .project-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .project-desc { font-size: 14px; color: var(--grey); margin-bottom: 14px; line-height: 1.5; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag {
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    background: var(--grey-light); color: var(--grey);
+  }
+  .project-links { display: flex; gap: 10px; }
+  .proj-link {
+    text-decoration: none; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 6px;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .proj-link.live { background: var(--accent); color: #fff; }
+  .proj-link.live:hover { background: var(--accent-light); }
+  .proj-link.secondary { background: var(--grey-light); color: var(--black); }
+  .proj-link.secondary:hover { background: var(--grey-border); }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .service-card {
+    padding: 24px; border: 1.5px solid var(--grey-border); border-radius: var(--radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .service-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(37,99,235,0.1); }
+  .service-icon { font-size: 28px; margin-bottom: 12px; }
+  .service-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .service-desc { font-size: 14px; color: var(--grey); line-height: 1.5; margin-bottom: 12px; }
+  .service-price { font-size: 13px; font-weight: 600; color: var(--accent); }
+
+  /* PROCESS */
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; padding: 20px; background: var(--grey-light); border-radius: var(--radius); }
+  .step-num { font-size: 24px; font-weight: 800; color: var(--accent); line-height: 1; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--grey); }
+
+  /* STACK */
+  .stack-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .stack-chip {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border: 1.5px solid var(--grey-border); border-radius: 8px;
+    font-size: 14px; font-weight: 500; background: var(--white); transition: border-color 0.2s;
+  }
+  .stack-chip:hover { border-color: var(--accent); }
+  .stack-chip .icon { font-size: 18px; }
+
+  /* CONTACT */
+  .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .contact-info { }
+  .contact-info h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+  .contact-info p { color: var(--grey); font-size: 15px; margin-bottom: 20px; }
+  .contact-detail { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 10px; }
+  .contact-detail a { color: var(--accent); text-decoration: none; }
+  .contact-form { background: var(--grey-light); padding: 28px; border-radius: var(--radius); }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--grey); margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 11px 14px; border: 1.5px solid var(--grey-border); border-radius: 6px;
+    font-size: 14px; font-family: var(--font); transition: border-color 0.2s; background: var(--white); color: var(--black);
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .check-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .check-option {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 12px; border: 1.5px solid var(--grey-border); border-radius: 20px;
+    font-size: 13px; cursor: pointer; background: var(--white); transition: all 0.15s; user-select: none;
+  }
+  .check-option:hover { border-color: var(--accent); }
+  .check-option input[type="checkbox"], .check-option input[type="radio"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+  .form-note { font-size: 12px; color: var(--grey); margin-top: 4px; }
+  .submit-btn {
+    width: 100%; padding: 13px; background: var(--accent); color: #fff;
+    border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s; font-family: var(--font); margin-top: 4px;
+  }
+  .submit-btn:hover { background: var(--accent-light); }
+  .submit-btn:disabled { background: var(--grey); cursor: not-allowed; }
+  .form-success { display: none; text-align: center; padding: 20px; color: var(--green); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); color: #9ca3af; padding: 40px 32px; text-align: center;
+    font-size: 14px;
+  }
+  footer .footer-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em; }
+  footer a { color: var(--accent-light); text-decoration: none; }
+  footer .footer-links { display: flex; gap: 20px; justify-content: center; margin-top: 16px; }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    section { padding: 56px 16px; }
+    .hero { padding: 64px 16px 56px; }
+    .stats { gap: 28px; }
+    .contact-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">TC<span>.</span>dev</a>
+  <div class="nav-links">
+    <a href="#projects">Work</a>
+    <a href="#services">Services</a>
+    <a href="#stack">Stack</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">Hire Me →</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    Available for freelance work · South Africa
+  </div>
+  <h1>
+    <span class="hi">Hi, I'm</span>
+    <span class="name">Thabiso</span><br>Collins Engane
+  </h1>
+  <p>I build fast, modern web apps and e-commerce stores for South African businesses — delivered in days, not months.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#projects">See My Work ↓</a>
+    <a class="btn-secondary" href="#contact">Get a Quote</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Production apps live</div></div>
+  <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Avg. delivery time</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Industries covered</div></div>
+  <div class="stat"><div class="stat-num">SA</div><div class="stat-label">Based & built local</div></div>
+</div>
+
+<section id="projects">
+  <div class="section-label">Portfolio</div>
+  <div class="section-title">Apps I've Built</div>
+  <p class="section-sub">Real production apps — not mockups. All deployed, all running.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-thumb pulsify">🎵</div>
+      <div class="project-body">
+        <div class="project-title">Pulsify</div>
+        <p class="project-desc">Event discovery platform for South Africa. Interactive Mapbox map, Supabase auth, ticket purchasing with payment verification, social features (follow, RSVP, likes).</p>
+        <div class="project-tags">
+          <span class="tag">Event Platform</span>
+          <span class="tag">Maps</span>
+          <span class="tag">Payments</span>
+          <span class="tag">Social</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link live" href="https://pulsefy.co.za" target="_blank" rel="noopener">↗ Live Site</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb mzansi">📚</div>
+      <div class="project-body">
+        <div class="project-title">Mzansi Academy</div>
+        <p class="project-desc">South African online education platform. Course management, user authentication, content delivery — built for local learners and educators.</p>
+        <div class="project-tags">
+          <span class="tag">EdTech</span>
+          <span class="tag">Auth</span>
+          <span class="tag">Content</span>
+          <span class="tag">SA-focused</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link live" href="https://mzansiacademysa.co.za" target="_blank" rel="noopener">↗ Live Site</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb totallydiff">🛍️</div>
+      <div class="project-body">
+        <div class="project-title">Totallydifferent</div>
+        <p class="project-desc">Premium clothing & hair e-commerce store. Product catalogue, cart, PayFast/Paystack checkout, inventory management, order tracking — fully serverless.</p>
+        <div class="project-tags">
+          <span class="tag">E-commerce</span>
+          <span class="tag">Payments</span>
+          <span class="tag">Inventory</span>
+          <span class="tag">Clothing</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link secondary" href="#contact">Built for a client</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="services" style="background: var(--grey-light); max-width:100%; padding: 80px 32px;">
+<div style="max-width:1080px; margin: 0 auto;">
+  <div class="section-label">What I Offer</div>
+  <div class="section-title">Services & Pricing</div>
+  <p class="section-sub">Fixed-price packages so you always know what you're paying upfront.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <div class="service-title">Business Website</div>
+      <p class="service-desc">Professional site to showcase your business. Home, About, Services, Contact — mobile-ready and fast.</p>
+      <div class="service-price">From R1,500</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛒</div>
+      <div class="service-title">Online Store</div>
+      <p class="service-desc">Full e-commerce with products, cart, and PayFast or Paystack checkout. Ready to take orders from day one.</p>
+      <div class="service-price">From R5,000</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <div class="service-title">Web App</div>
+      <p class="service-desc">Custom web application with user accounts, database, and business logic. Booking systems, dashboards, platforms.</p>
+      <div class="service-price">From R8,000</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Monthly Maintenance</div>
+      <p class="service-desc">Ongoing updates, bug fixes, content changes, and feature additions. Keep your site fresh and running smoothly.</p>
+      <div class="service-price">From R800/month</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="process">
+  <div class="section-label">How It Works</div>
+  <div class="section-title">Simple 4-Step Process</div>
+  <p class="section-sub">From brief to live site — straightforward, no surprises.</p>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">You share your brief</div>
+        <p class="step-desc">Tell me what you need, your budget, and your deadline via the contact form.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">I send a proposal</div>
+        <p class="step-desc">Fixed price quote, timeline, and what's included — within 24 hours.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">You see it before you pay</div>
+        <p class="step-desc">I share a live preview URL. You review and request changes — then pay on approval.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">Go live</div>
+        <p class="step-desc">Your site is deployed to your domain. I hand over all access and support you on launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack" style="background: var(--grey-light); max-width:100%; padding: 80px 32px;">
+<div style="max-width:1080px; margin: 0 auto;">
+  <div class="section-label">Technology</div>
+  <div class="section-title">My Stack</div>
+  <p class="section-sub">Battle-tested tools used in all my production apps.</p>
+  <div class="stack-grid">
+    <div class="stack-chip"><span class="icon">▲</span> Vercel</div>
+    <div class="stack-chip"><span class="icon">🗄️</span> Supabase (PostgreSQL)</div>
+    <div class="stack-chip"><span class="icon">💳</span> PayFast / Paystack</div>
+    <div class="stack-chip"><span class="icon">🌐</span> HTML / CSS / JavaScript</div>
+    <div class="stack-chip"><span class="icon">🗺️</span> Mapbox</div>
+    <div class="stack-chip"><span class="icon">🔐</span> Supabase Auth</div>
+    <div class="stack-chip"><span class="icon">📧</span> Resend (Email)</div>
+    <div class="stack-chip"><span class="icon">📦</span> Node.js (Serverless)</div>
+  </div>
+</div>
+</section>
+
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title">Let's Build Something</div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3>Ready to start your project?</h3>
+      <p>Fill in the form with your idea and I'll come back to you within 24 hours with a quote. No obligation.</p>
+      <div class="contact-detail">📍 <span>South Africa (available remotely)</span></div>
+      <div class="contact-detail">📧 <a href="mailto:thacollin2@gmail.com">thacollin2@gmail.com</a></div>
+      <div class="contact-detail">⚡ <span>48–72 hour typical delivery</span></div>
+      <div style="margin-top:24px; padding:16px; background:#eff6ff; border-radius:8px; border-left: 3px solid var(--accent);">
+        <div style="font-size:13px; font-weight:600; color:var(--accent); margin-bottom:4px">SA-FIRST DEVELOPER</div>
+        <p style="font-size:13px; color:var(--grey);">I know PayFast, Ozow, and local SA payment gateways. Your customers pay in Rands, no international complications.</p>
+      </div>
+    </div>
+    <div class="contact-form">
+      <form id="contact-form" onsubmit="submitForm(event)">
+
+        <!-- Q1: Name + Email -->
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" name="name" placeholder="Sipho Dlamini" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="sipho@business.co.za" required>
+        </div>
+
+        <!-- Q2: Business description -->
+        <div class="form-group">
+          <label>What does your business do?</label>
+          <textarea name="business" placeholder="e.g. We sell handmade candles in Johannesburg and want to take orders online." required></textarea>
+        </div>
+
+        <!-- Q3: Goal (multi-select) -->
+        <div class="form-group">
+          <label>What should people be able to do on your site? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tick all that apply)</span></label>
+          <div class="check-grid" id="goals-grid">
+            <label class="check-option"><input type="checkbox" name="goal" value="Learn about your business and contact you"> Learn about you &amp; contact you</label>
+            <label class="check-option"><input type="checkbox" name="goal" value="Buy products online"> Buy products online</label>
+            <label class="check-option"><input type="checkbox" name="goal" value="Book an appointment or service"> Book an appointment</label>
+            <label class="check-option"><input type="checkbox" name="goal" value="Create an account and log in"> Create an account / log in</label>
+            <label class="check-option"><input type="checkbox" name="goal" value="Other"> Other</label>
+          </div>
+          <input type="hidden" name="goals" id="goals-hidden">
+          <textarea name="goal_other" placeholder="If you ticked 'Other', describe here…" style="margin-top:8px; min-height:48px"></textarea>
+        </div>
+
+        <!-- Q4: Pages (multi-select) -->
+        <div class="form-group">
+          <label>Which pages do you need? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tick all that apply)</span></label>
+          <div class="check-grid" id="pages-grid">
+            <label class="check-option"><input type="checkbox" name="page" value="Home"> Home</label>
+            <label class="check-option"><input type="checkbox" name="page" value="About Us"> About Us</label>
+            <label class="check-option"><input type="checkbox" name="page" value="Services / Products"> Services / Products</label>
+            <label class="check-option"><input type="checkbox" name="page" value="Gallery / Portfolio"> Gallery</label>
+            <label class="check-option"><input type="checkbox" name="page" value="Contact"> Contact</label>
+            <label class="check-option"><input type="checkbox" name="page" value="Blog"> Blog</label>
+            <label class="check-option"><input type="checkbox" name="page" value="Other"> Other</label>
+          </div>
+          <input type="hidden" name="pages" id="pages-hidden">
+        </div>
+
+        <!-- Q5: Payments -->
+        <div class="form-group">
+          <label>Do you need to accept payments on the site?</label>
+          <div class="check-grid">
+            <label class="check-option"><input type="radio" name="payments" value="No payments needed" required> No</label>
+            <label class="check-option"><input type="radio" name="payments" value="Yes – selling physical products"> Yes – physical products</label>
+            <label class="check-option"><input type="radio" name="payments" value="Yes – selling services / bookings"> Yes – services / bookings</label>
+            <label class="check-option"><input type="radio" name="payments" value="Yes – selling digital downloads"> Yes – digital downloads</label>
+          </div>
+        </div>
+
+        <!-- Q6: Style references -->
+        <div class="form-group">
+          <label>Sites you like the look of</label>
+          <textarea name="style_refs" placeholder="Paste 2–3 website links here. Doesn't have to be your industry — just sites whose style you like." style="min-height:64px"></textarea>
+          <p class="form-note">This helps me match the design to your taste without guessing.</p>
+        </div>
+
+        <!-- Q7: Branding -->
+        <div class="form-group">
+          <label>Do you have a logo and brand colours?</label>
+          <div class="check-grid">
+            <label class="check-option"><input type="radio" name="branding" value="Yes – I will send logo and colours" required> Yes, I'll send them</label>
+            <label class="check-option"><input type="radio" name="branding" value="No – use clean professional defaults"> No, use professional defaults</label>
+          </div>
+        </div>
+
+        <!-- Q8: Content -->
+        <div class="form-group">
+          <label>Who will write the text for the site?</label>
+          <div class="check-grid">
+            <label class="check-option"><input type="radio" name="content" value="I will send all the text" required> I'll send all text</label>
+            <label class="check-option"><input type="radio" name="content" value="Please write it for me"> Write it for me</label>
+            <label class="check-option"><input type="radio" name="content" value="A mix – some I'll send, some you write"> Mix</label>
+          </div>
+        </div>
+
+        <!-- Q9: Deadline -->
+        <div class="form-group">
+          <label>When do you need this by?</label>
+          <input type="date" name="deadline">
+        </div>
+
+        <!-- Q10: Budget -->
+        <div class="form-group">
+          <label>Your Budget Range</label>
+          <select name="budget">
+            <option value="">Prefer not to say</option>
+            <option>Under R2,000</option>
+            <option>R2,000 – R5,000</option>
+            <option>R5,000 – R10,000</option>
+            <option>R10,000 – R20,000</option>
+            <option>R20,000+</option>
+          </select>
+        </div>
+
+        <button class="submit-btn" type="submit" id="submit-btn">Send Project Brief →</button>
+        <div class="form-success" id="form-success">✅ Brief received! I'll reply with a quote within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Thabiso Collins Engane</div>
+  <div>Full-stack web & app developer · South Africa</div>
+  <div class="footer-links">
+    <a href="mailto:thacollin2@gmail.com">Email</a>
+    <a href="https://pulsefy.co.za" target="_blank">Pulsify</a>
+    <a href="https://mzansiacademysa.co.za" target="_blank">Mzansi Academy</a>
+  </div>
+</footer>
+
+<script>
+  function submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    // Collect checkbox groups into hidden fields before submitting
+    const goals = [...form.querySelectorAll('input[name="goal"]:checked')].map(i => i.value).join(', ');
+    document.getElementById('goals-hidden').value = goals || 'Not specified';
+
+    const pages = [...form.querySelectorAll('input[name="page"]:checked')].map(i => i.value).join(', ');
+    document.getElementById('pages-hidden').value = pages || 'Not specified';
+
+    const data = new FormData(form);
+    // Remove individual checkbox fields — the hidden fields carry the joined values
+    for (const key of ['goal', 'page']) data.delete(key);
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    // Send via Formspree (free) — replace YOUR_FORM_ID with the ID from formspree.io
+    fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        form.reset();
+        document.getElementById('form-success').style.display = 'block';
+        btn.style.display = 'none';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Send Project Brief →';
+        alert('Something went wrong. Please email me directly at thacollin2@gmail.com');
+      }
+    }).catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Send Project Brief →';
+      alert('Network error. Please email me directly at thacollin2@gmail.com');
+    });
+  }
+</script>
+</body>
+</html>
