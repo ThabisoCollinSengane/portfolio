@@ -149,48 +149,82 @@ async function scrapeRSS(url, source, minScore = 5) {
   return leads;
 }
 
-// ── Facebook via RSSHub (public groups & page posts) ─────────────────────────
-// RSSHub converts Facebook public groups/pages into RSS feeds.
-// Add more public SA business Facebook group IDs below.
-// To find a group ID: go to the group → copy the number from the URL.
-async function scrapeFacebook() {
-  const RSSHUB = 'https://rsshub.app'; // free public instance
-
-  // Public Facebook pages/groups known to have "looking for developer" posts
-  const feeds = [
-    // SA Business / entrepreneur pages — add more group IDs here
-    `${RSSHUB}/facebook/group/southafricanentrepreneurs`,
-    `${RSSHUB}/facebook/group/kznbusiness`,
+// ── Gumtree South Africa ──────────────────────────────────────────────────────
+// People post "need a website built" ads with budgets on Gumtree SA.
+// Searches multiple relevant categories via their public RSS feeds.
+async function scrapeGumtree() {
+  const searches = [
+    // Services wanted — web/IT category
+    'https://www.gumtree.co.za/s-services/web-design/v1c9339l3100008p1',
+    'https://www.gumtree.co.za/s-services/website/v1c9339l3100008p1',
+    'https://www.gumtree.co.za/s-services/web-developer/v1c9339l3100008p1',
+    // KZN / Durban specific
+    'https://www.gumtree.co.za/s-services/web-design/v1c9339l3101697p1',
   ];
-
-  // Also search Twitter/X via Nitter RSS for SA dev hiring posts
-  const twitterFeeds = [
-    `${RSSHUB}/twitter/keyword/looking for web developer south africa`,
-    `${RSSHUB}/twitter/keyword/need a website developer SA`,
-    `${RSSHUB}/twitter/keyword/hire freelance developer johannesburg OR durban OR capetown`,
-  ];
-
   const leads = [];
-  for (const url of [...feeds, ...twitterFeeds]) {
-    const source = url.includes('facebook') ? 'facebook' : 'twitter/x';
-    const results = await scrapeRSS(url, source, 6);
-    leads.push(...results);
+  const seen = new Set();
+
+  for (const url of searches) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; TCDevLeadBot/1.0)',
+          'Accept': 'text/html,application/xhtml+xml',
+        },
+      });
+      if (!res.ok) continue;
+      const html = await res.text();
+
+      // Extract listing titles, URLs and snippets from Gumtree search results HTML
+      const articlePattern = /<article[^>]*data-q="[^"]*"[^>]*>([\s\S]*?)<\/article>/g;
+      let match;
+      while ((match = articlePattern.exec(html)) !== null) {
+        const block = match[1];
+        const titleM = block.match(/data-q="title"[^>]*>([^<]+)</) ||
+                       block.match(/<h2[^>]*>[\s\S]*?<a[^>]*>([^<]+)<\/a>/);
+        const hrefM  = block.match(/href="(\/a-[^"]+)"/);
+        const descM  = block.match(/data-q="description"[^>]*>([^<]+)</);
+        if (!titleM || !hrefM) continue;
+        const title = titleM[1].trim();
+        const link  = `https://www.gumtree.co.za${hrefM[1]}`;
+        const body  = descM ? descM[1].trim() : '';
+        if (seen.has(link)) continue;
+        seen.add(link);
+        const { score, tags } = scorePost(title, body);
+        if (score >= 5) leads.push({
+          source: 'gumtree-sa',
+          title,
+          body: body || null,
+          url: link,
+          author: null,
+          score,
+          relevance_tags: tags,
+        });
+      }
+    } catch (e) { console.error('Gumtree:', e.message); }
   }
   return leads;
 }
 
-// ── TikTok hashtag search via RSSHub ─────────────────────────────────────────
-// Monitors hashtags where people post about needing a website/developer
-async function scrapeTikTok() {
-  const RSSHUB = 'https://rsshub.app';
-  const tags = [
-    'needawebsite', 'lookingforadeveloper', 'needadeveloper',
-    'websitedesign', 'onlinebusiness', 'southafricanbusiness',
-    'kznbusiness', 'durbanbusiness', 'sabusiness',
+// ── LinkedIn Jobs RSS ─────────────────────────────────────────────────────────
+// LinkedIn exposes a public RSS feed for job searches — no login required.
+async function scrapeLinkedIn() {
+  const searches = [
+    // SA-specific searches
+    'web+developer+south+africa',
+    'freelance+web+developer+durban',
+    'web+developer+johannesburg',
+    'website+developer+south+africa',
+    'full+stack+developer+south+africa',
   ];
   const leads = [];
-  for (const tag of tags) {
-    const results = await scrapeRSS(`${RSSHUB}/tiktok/tag/${tag}`, `tiktok/#${tag}`, 5);
+  for (const q of searches) {
+    const url = `https://www.linkedin.com/jobs/search/?keywords=${q}&f_TPR=r86400&f_JT=C%2CF&sortBy=DD`;
+    const results = await scrapeRSS(
+      `https://www.linkedin.com/jobs/search.rss?keywords=${q}&f_TPR=r86400`,
+      'linkedin',
+      6,
+    );
     leads.push(...results);
   }
   return leads;
@@ -227,9 +261,8 @@ async function sendEmail(newLeads) {
 
   const sourceIcon = s => {
     if (s.includes('reddit')) return '🟠';
-    if (s.includes('facebook')) return '🔵';
-    if (s.includes('tiktok')) return '🎵';
-    if (s.includes('twitter')) return '🐦';
+    if (s.includes('gumtree')) return '🇿🇦';
+    if (s.includes('linkedin')) return '💼';
     if (s.includes('hackernews')) return '🟡';
     return '🌐';
   };
@@ -282,17 +315,17 @@ module.exports = async function handler(req, res) {
 
   const start = Date.now();
   try {
-    const [reddit, hn, wwr, remotive, remoteok, facebook, tiktok] = await Promise.allSettled([
+    const [reddit, hn, wwr, remotive, remoteok, gumtree, linkedin] = await Promise.allSettled([
       scrapeReddit(),
       scrapeHackerNews(),
       scrapeRSS('https://weworkremotely.com/categories/remote-programming-jobs.rss', 'weworkremotely'),
       scrapeRSS('https://remotive.com/api/remote-jobs/feed?category=software-dev', 'remotive'),
       scrapeRSS('https://remoteok.com/remote-dev-jobs.rss', 'remoteok'),
-      scrapeFacebook(),
-      scrapeTikTok(),
+      scrapeGumtree(),
+      scrapeLinkedIn(),
     ]).then(results => results.map(r => r.value || []));
 
-    const all = [...reddit, ...hn, ...wwr, ...remotive, ...remoteok, ...facebook, ...tiktok]
+    const all = [...reddit, ...hn, ...wwr, ...remotive, ...remoteok, ...gumtree, ...linkedin]
       .filter((v, i, a) => a.findIndex(x => x.url === v.url) === i)
       .sort((a, b) => b.score - a.score);
 
@@ -310,8 +343,8 @@ module.exports = async function handler(req, res) {
         weworkremotely: wwr.length,
         remotive: remotive.length,
         remoteok: remoteok.length,
-        facebook: facebook.length,
-        tiktok: tiktok.length,
+        gumtree_sa: gumtree.length,
+        linkedin: linkedin.length,
       },
     });
   } catch (err) {
