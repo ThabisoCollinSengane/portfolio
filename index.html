@@ -3,882 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TcDigital — Web Development & Cybersecurity | Durban, South Africa</title>
-<meta name="description" content="Durban-based web development and cybersecurity company. We build fast, beautiful websites — and then lock them down. Serving KZN businesses.">
+<title>TcDigital — Websites & Cybersecurity | Durban</title>
+<meta name="description" content="Durban web development and cybersecurity. We build websites for KZN businesses and keep them secure.">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #0a0a0f;
-    --bg2: #0d0d14;
-    --bg3: #12121c;
-    --surface: #16161f;
-    --surface2: #1e1e2e;
-    --surface3: #252538;
-    --border: #2a2a3e;
-    --border-light: #363654;
+    --surface: #13131c;
+    --surface2: #1a1a26;
+    --border: #262638;
     --white: #f0f0ff;
-    --muted: #7878a0;
-    --muted2: #9898b8;
+    --muted: #8a8aae;
     --accent: #7c3aed;
     --accent2: #a855f7;
-    --accent3: #ec4899;
     --cyan: #06b6d4;
     --green: #10b981;
-    --gold: #f59e0b;
-    --red: #ef4444;
-    --orange: #f97316;
     --gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
-    --gradient-cyber: linear-gradient(135deg, #06b6d4 0%, #7c3aed 50%, #a855f7 100%);
-    --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(236,72,153,0.07) 100%);
+    --gradient-cyber: linear-gradient(135deg, #06b6d4 0%, #7c3aed 60%, #a855f7 100%);
     --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --radius: 12px;
-    --radius-lg: 20px;
-    --radius-xl: 28px;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   }
   html { scroll-behavior: smooth; }
   body { font-family: var(--font); background: var(--bg); color: var(--white); line-height: 1.6; overflow-x: hidden; }
-
-  /* ── NOISE OVERLAY ─────────────────────────────────────────────────── */
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    opacity: 0.4;
-  }
-
-  /* ── UTILS ─────────────────────────────────────────────────────────── */
+  a { color: inherit; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
   .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .cyber-text { background: var(--gradient-cyber); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .glow { box-shadow: 0 0 60px rgba(124,58,237,0.25); }
-  .section { position: relative; z-index: 1; }
-  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  .tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(124,58,237,0.12); color: var(--accent2);
-    border: 1px solid rgba(124,58,237,0.25); padding: 5px 14px;
-    border-radius: 30px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  .tag-cyan { background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.25); }
-  .tag-green { background: rgba(16,185,129,0.1); color: var(--green); border-color: rgba(16,185,129,0.25); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  section { padding: 88px 0; }
+  h2 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.15; letter-spacing: -0.03em; font-weight: 800; margin-bottom: 14px; }
+  .lead { color: var(--muted); font-size: 17px; max-width: 560px; }
 
-  /* ── NAV ────────────────────────────────────────────────────────────── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    background: rgba(10,10,15,0.8); backdrop-filter: blur(24px) saturate(180%);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px; height: 68px;
-    transition: all 0.3s;
-  }
-  .nav-logo {
-    font-weight: 900; font-size: 22px; text-decoration: none; letter-spacing: -0.05em;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .nav-logo span { color: var(--muted); -webkit-text-fill-color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; vertical-align: middle; letter-spacing: 0; }
-  .nav-links { display: flex; gap: 36px; }
-  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-right { display: flex; align-items: center; gap: 12px; }
-  .nav-cta {
-    background: var(--gradient); color: #fff; padding: 9px 22px; border-radius: 8px;
-    text-decoration: none; font-size: 13px; font-weight: 700; transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.35);
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(124,58,237,0.5); }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted2); border-radius: 2px; transition: all 0.3s; }
-  .mobile-menu {
-    display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 199;
-    background: rgba(10,10,15,0.97); backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border); padding: 24px;
-    flex-direction: column; gap: 8px;
-  }
-  .mobile-menu a { color: var(--muted2); text-decoration: none; font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .mobile-menu a:last-child { border: none; }
-  .mobile-menu.open { display: flex; }
+  /* nav */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(10,10,15,0.8); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-weight: 900; font-size: 22px; text-decoration: none; letter-spacing: -0.05em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-logo span { color: var(--muted); -webkit-text-fill-color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; letter-spacing: 0; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+  .nav-links a:hover, .nav-links a.btn { color: #fff; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 10px; font-weight: 700; font-size: 15px; text-decoration: none; border: 0; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--gradient); color: #fff; box-shadow: 0 8px 30px rgba(124,58,237,0.35); }
+  .btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent2); }
+  .btn-sm { padding: 9px 16px; font-size: 14px; }
 
-  /* ── HERO ────────────────────────────────────────────────────────────── */
-  .hero-wrap {
-    position: relative; min-height: 100vh; display: flex; align-items: center;
-    background:
-      radial-gradient(ellipse 90% 70% at 50% -5%, rgba(124,58,237,0.2) 0%, transparent 55%),
-      radial-gradient(ellipse 40% 40% at 85% 70%, rgba(236,72,153,0.1) 0%, transparent 50%),
-      radial-gradient(ellipse 30% 30% at 10% 80%, rgba(6,182,212,0.06) 0%, transparent 50%),
-      var(--bg);
-    padding-top: 68px;
-    overflow: hidden;
-  }
-  /* grid lines background */
-  .hero-wrap::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-  }
-  .hero { max-width: 820px; margin: 0 auto; padding: 80px 24px 100px; text-align: center; position: relative; z-index: 1; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(124,58,237,0.1); color: var(--accent2);
-    border: 1px solid rgba(124,58,237,0.25); padding: 8px 20px;
-    border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 36px;
-    letter-spacing: 0.05em; text-transform: uppercase;
-    backdrop-filter: blur(10px);
-  }
-  .hero-badge .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-  .hero h1 {
-    font-size: clamp(42px, 7vw, 76px); font-weight: 900; line-height: 1.02;
-    letter-spacing: -0.04em; margin-bottom: 28px;
-  }
-  .hero h1 .line1 { display: block; color: var(--white); }
-  .hero h1 .line2 { display: block; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero-sub { font-size: 19px; color: var(--muted2); max-width: 540px; margin: 0 auto 48px; line-height: 1.7; }
-  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 64px; }
-  .btn-primary {
-    background: var(--gradient); color: #fff; padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px;
-    display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
-    box-shadow: 0 4px 28px rgba(124,58,237,0.4);
-  }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 44px rgba(124,58,237,0.55); }
-  .btn-wa {
-    background: linear-gradient(135deg, #128C7E, #25D366); color: #fff; padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px;
-    display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.25);
-  }
-  .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(37,211,102,0.4); }
-  .btn-outline {
-    background: transparent; color: var(--white); padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px;
-    border: 1.5px solid var(--border-light); display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
-  }
-  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
+  /* hero */
+  .hero { padding: 140px 0 80px; position: relative; }
+  .hero::before { content: ''; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(ellipse 70% 60% at 80% 10%, rgba(124,58,237,0.22), transparent 70%),
+                radial-gradient(ellipse 50% 50% at 10% 90%, rgba(6,182,212,0.10), transparent 70%); }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .hero h1 { font-size: clamp(38px, 6.5vw, 64px); line-height: 1.05; letter-spacing: -0.045em; font-weight: 900; margin-bottom: 20px; }
+  .hero p { color: var(--muted); font-size: 18px; max-width: 480px; margin-bottom: 30px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-note { margin-top: 22px; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
 
-  /* hero stats */
-  .hero-stats {
-    display: flex; justify-content: center; gap: 0;
-    border: 1px solid var(--border); border-radius: var(--radius-lg);
-    background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
-    overflow: hidden; max-width: 560px; margin: 0 auto;
-  }
-  .hero-stat { flex: 1; padding: 20px 16px; text-align: center; border-right: 1px solid var(--border); }
-  .hero-stat:last-child { border: none; }
-  .hero-stat-num { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 3px; }
+  .terminal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.15); }
+  .term-bar { display: flex; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: #333348; }
+  .term-body { font-family: var(--mono); font-size: 13px; padding: 18px; line-height: 1.9; }
+  .term-body .c { color: var(--muted); }
+  .term-body .g { color: var(--green); }
+  .term-body .p { color: var(--accent2); }
+  .term-body .y { color: var(--cyan); }
 
-  /* ── DIVISION CARDS ──────────────────────────────────────────────────── */
-  .divisions { padding: 100px 0; position: relative; z-index: 1; }
-  .divisions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .div-card {
-    border-radius: var(--radius-xl); padding: 48px 40px; position: relative; overflow: hidden;
-    border: 1px solid var(--border);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .div-card:hover { transform: translateY(-6px); }
-  .div-card-web {
-    background: linear-gradient(145deg, #16161f 0%, #1a1a2e 100%);
-    box-shadow: 0 0 80px rgba(168,85,247,0.08);
-  }
-  .div-card-web:hover { box-shadow: 0 20px 80px rgba(168,85,247,0.18); }
-  .div-card-cyber {
-    background: linear-gradient(145deg, #0f1620 0%, #111827 100%);
-    box-shadow: 0 0 80px rgba(6,182,212,0.06);
-    border-color: rgba(6,182,212,0.15);
-  }
-  .div-card-cyber:hover { box-shadow: 0 20px 80px rgba(6,182,212,0.15); }
-  .div-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  }
-  .div-card-web::before { background: var(--gradient); }
-  .div-card-cyber::before { background: var(--gradient-cyber); }
-  .div-icon {
-    width: 60px; height: 60px; border-radius: 16px;
-    display: flex; align-items: center; justify-content: center; font-size: 28px;
-    margin-bottom: 24px;
-  }
-  .div-icon-web { background: rgba(124,58,237,0.15); }
-  .div-icon-cyber { background: rgba(6,182,212,0.12); }
-  .div-card h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
-  .div-card p { color: var(--muted2); font-size: 15px; line-height: 1.7; margin-bottom: 28px; }
-  .div-list { list-style: none; margin-bottom: 36px; display: flex; flex-direction: column; gap: 10px; }
-  .div-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted2); }
-  .div-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .div-card-web .div-list li::before { background: var(--accent2); }
-  .div-card-cyber .div-list li::before { background: var(--cyan); }
-  .div-btn-web {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--gradient); color: #fff; padding: 12px 24px; border-radius: 9px;
-    text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
-  }
-  .div-btn-web:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.45); }
-  .div-btn-cyber {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #06b6d4, #7c3aed); color: #fff; padding: 12px 24px; border-radius: 9px;
-    text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(6,182,212,0.25);
-  }
-  .div-btn-cyber:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(6,182,212,0.4); }
-  .div-badge {
-    position: absolute; top: 20px; right: 20px;
-    background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25);
-    padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .div-badge-cyber {
-    background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.25);
-  }
+  /* services */
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .svc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .svc-web { border-top: 3px solid var(--accent2); }
+  .svc-cyber { border-top: 3px solid var(--cyan); }
+  .svc h3 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .svc > p { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .svc ul { list-style: none; }
+  .svc li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border); font-size: 15px; }
+  .svc li span:last-child { font-family: var(--mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .badge { font-size: 11px; font-weight: 700; color: var(--cyan); background: rgba(6,182,212,0.12); padding: 2px 8px; border-radius: 20px; margin-left: 6px; }
 
-  /* ── SECTION HEADINGS ────────────────────────────────────────────────── */
-  .section-head { text-align: center; margin-bottom: 64px; }
-  .section-head h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 900; letter-spacing: -0.03em; margin: 16px 0 16px; }
-  .section-head p { color: var(--muted2); font-size: 17px; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+  .step { padding: 24px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+  .step-num { font-family: var(--mono); font-size: 13px; color: var(--accent2); margin-bottom: 10px; }
+  .step h3 { font-size: 18px; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 14px; }
 
-  /* ── WEB SERVICES ────────────────────────────────────────────────────── */
-  .web-services { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .service-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-    padding: 32px 28px; transition: all 0.3s; position: relative; overflow: hidden;
-  }
-  .service-card::after {
-    content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg);
-    background: var(--gradient-subtle); opacity: 0; transition: opacity 0.3s;
-  }
-  .service-card:hover { border-color: rgba(168,85,247,0.35); transform: translateY(-4px); box-shadow: 0 12px 48px rgba(124,58,237,0.12); }
-  .service-card:hover::after { opacity: 1; }
-  .service-icon { font-size: 32px; margin-bottom: 16px; display: block; }
-  .service-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
-  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
-  .service-price {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(124,58,237,0.1); color: var(--accent2);
-    border: 1px solid rgba(124,58,237,0.2); padding: 5px 14px;
-    border-radius: 20px; font-size: 13px; font-weight: 700;
-  }
-  .service-card.featured { border-color: rgba(168,85,247,0.4); background: linear-gradient(145deg, #1a1a2e, #1e1e38); }
+  /* contact */
+  .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; align-items: start; }
+  .contact-links { margin-top: 24px; display: grid; gap: 10px; }
+  .contact-links a { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; text-decoration: none; background: var(--surface); font-size: 15px; }
+  .contact-links a:hover { border-color: var(--accent2); }
+  .contact-links small { display: block; color: var(--muted); font-size: 12px; }
+  form { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px; display: grid; gap: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; color: var(--white); font: inherit; font-size: 15px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent2); }
+  textarea { min-height: 110px; resize: vertical; }
+  .form-success { display: none; color: var(--green); font-size: 14px; }
 
-  /* ── CYBER SERVICES ──────────────────────────────────────────────────── */
-  .cyber-section {
-    padding: 100px 0; position: relative; z-index: 1;
-    background:
-      radial-gradient(ellipse 60% 50% at 0% 50%, rgba(6,182,212,0.05) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 100% 50%, rgba(124,58,237,0.06) 0%, transparent 60%),
-      var(--bg);
-  }
-  .cyber-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .cyber-card {
-    background: var(--surface); border: 1px solid rgba(6,182,212,0.12);
-    border-radius: var(--radius-lg); padding: 32px 28px; transition: all 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .cyber-card::before {
-    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
-    background: var(--gradient-cyber); border-radius: 3px 0 0 3px; opacity: 0; transition: opacity 0.3s;
-  }
-  .cyber-card:hover { border-color: rgba(6,182,212,0.3); transform: translateX(4px); box-shadow: 0 8px 40px rgba(6,182,212,0.08); }
-  .cyber-card:hover::before { opacity: 1; }
-  .cyber-card-icon { font-size: 28px; margin-bottom: 14px; display: block; }
-  .cyber-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
-  .cyber-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
-  .cyber-price {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(6,182,212,0.08); color: var(--cyan);
-    border: 1px solid rgba(6,182,212,0.2); padding: 4px 12px;
-    border-radius: 20px; font-size: 12px; font-weight: 700;
-  }
-  .popia-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: rgba(245,158,11,0.1); color: var(--gold);
-    border: 1px solid rgba(245,158,11,0.25); padding: 3px 10px;
-    border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; margin-left: 8px;
-  }
+  footer { border-top: 1px solid var(--border); padding: 28px 0; font-size: 13px; color: var(--muted); }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .footer-logo { font-weight: 900; font-size: 18px; letter-spacing: -0.04em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-  /* ── WHY TCDIGITAL ───────────────────────────────────────────────────── */
-  .why-section { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
-  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .why-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 36px 28px; text-align: center; transition: all 0.3s;
+  @media (max-width: 860px) {
+    .hero-grid, .services-grid, .contact-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .nav-links a:not(.btn) { display: none; }
+    .hero { padding-top: 110px; }
+    section { padding: 64px 0; }
   }
-  .why-card:hover { border-color: var(--border-light); transform: translateY(-4px); }
-  .why-icon {
-    width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 20px;
-    display: flex; align-items: center; justify-content: center; font-size: 26px;
-  }
-  .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; }
-  .why-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
-
-  /* ── PROCESS ─────────────────────────────────────────────────────────── */
-  .process-section { padding: 100px 0; position: relative; z-index: 1; }
-  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; }
-  .process-steps::before {
-    content: ''; position: absolute; top: 32px; left: calc(12.5% + 24px); right: calc(12.5% + 24px);
-    height: 1px; background: linear-gradient(90deg, transparent, var(--accent2), var(--cyan), transparent);
-  }
-  .step {
-    text-align: center; padding: 32px 20px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: var(--radius-lg); position: relative;
-  }
-  .step-num {
-    width: 52px; height: 52px; border-radius: 50%; background: var(--gradient);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 900; margin: 0 auto 20px;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
-  }
-  .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-  /* ── WHAT WE BUILD ───────────────────────────────────────────────────── */
-  .examples-section { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
-  .examples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .example-card {
-    background: var(--surface3); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 24px 22px;
-    display: flex; align-items: flex-start; gap: 16px; transition: all 0.25s;
-  }
-  .example-card:hover { border-color: var(--border-light); background: var(--surface2); }
-  .example-emoji { font-size: 28px; flex-shrink: 0; }
-  .example-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .example-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
-
-  /* ── STACK ───────────────────────────────────────────────────────────── */
-  .stack-section { padding: 80px 0; position: relative; z-index: 1; }
-  .stack-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .chip {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; color: var(--muted2);
-    transition: all 0.2s;
-  }
-  .chip:hover { border-color: var(--border-light); color: var(--white); }
-
-  /* ── CONTACT ─────────────────────────────────────────────────────────── */
-  .contact-section {
-    padding: 100px 0; position: relative; z-index: 1;
-    background:
-      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,58,237,0.12) 0%, transparent 60%),
-      var(--bg);
-  }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .contact-info h2 { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.15; }
-  .contact-info p { color: var(--muted2); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
-  .contact-links { display: flex; flex-direction: column; gap: 14px; }
-  .contact-link {
-    display: flex; align-items: center; gap: 14px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 16px 20px; text-decoration: none; color: var(--white);
-    transition: all 0.2s;
-  }
-  .contact-link:hover { border-color: var(--border-light); transform: translateX(4px); }
-  .contact-link-icon { font-size: 22px; flex-shrink: 0; }
-  .contact-link small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
-  .contact-link strong { font-size: 15px; }
-
-  /* form */
-  .contact-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 14px; color: var(--white); font-family: var(--font); font-size: 14px;
-    transition: border-color 0.2s; outline: none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent2); }
-  .form-group select option { background: var(--bg3); }
-  .form-group textarea { resize: vertical; min-height: 100px; }
-  .form-submit {
-    width: 100%; background: var(--gradient); color: #fff; border: none; border-radius: 10px;
-    padding: 15px; font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer;
-    transition: all 0.25s; box-shadow: 0 4px 24px rgba(124,58,237,0.35);
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(124,58,237,0.5); }
-  .form-success {
-    display: none; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
-    border-radius: var(--radius); padding: 16px; text-align: center; color: var(--green); font-weight: 600;
-    margin-top: 16px; font-size: 15px;
-  }
-
-  /* ── FOOTER ──────────────────────────────────────────────────────────── */
-  footer {
-    background: var(--bg2); border-top: 1px solid var(--border);
-    padding: 48px 0 32px; position: relative; z-index: 1;
-  }
-  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
-  .footer-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.04em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .footer-copy { font-size: 13px; color: var(--muted); }
-  .footer-links { display: flex; gap: 24px; }
-  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--white); }
-
-  /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    nav { padding: 0 20px; }
-    .nav-links, .nav-cta { display: none; }
-    .hamburger { display: flex; }
-    .divisions-grid, .services-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; }
-    .cyber-grid { grid-template-columns: 1fr; }
-    .process-steps { grid-template-columns: 1fr 1fr; }
-    .process-steps::before { display: none; }
-    .examples-grid { grid-template-columns: 1fr 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 40px; }
-    .hero-stats { max-width: 100%; }
-    .contact-info h2 { font-size: 28px; }
-  }
-  @media (max-width: 600px) {
-    .examples-grid { grid-template-columns: 1fr; }
-    .process-steps { grid-template-columns: 1fr; }
-    .hero-actions { flex-direction: column; align-items: center; }
-    .hero-stat-num { font-size: 22px; }
-    .div-card { padding: 32px 24px; }
-  }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo">TcDigital<span>Durban, SA</span></a>
-  <div class="nav-links">
-    <a href="#services">Web Dev</a>
-    <a href="#cyber">Cybersecurity</a>
-    <a href="#examples">What We Build</a>
-    <a href="#process">Process</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <div class="nav-right">
-    <a href="#contact" class="nav-cta">Start a Project →</a>
-    <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">TcDigital<span>Durban, SA</span></a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#contact" class="btn btn-primary btn-sm">Get a quote</a>
     </div>
   </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#services" onclick="toggleMenu()">Web Development</a>
-  <a href="#cyber" onclick="toggleMenu()">Cybersecurity</a>
-  <a href="#examples" onclick="toggleMenu()">What We Build</a>
-  <a href="#process" onclick="toggleMenu()">Process</a>
-  <a href="#contact" onclick="toggleMenu()">Contact</a>
-</div>
-
-<!-- HERO -->
-<div class="hero-wrap">
-  <div class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      Available for projects in KZN & Remote
-    </div>
-    <h1>
-      <span class="line1">We Build It.</span>
-      <span class="line2">We Lock It Down.</span>
-    </h1>
-    <p class="hero-sub">Fast, beautiful websites for Durban businesses — secured from day one. Web development and cybersecurity under one roof.</p>
-    <div class="hero-actions">
-      <a href="#services" class="btn-primary">🌐 Get a Website</a>
-      <a href="https://wa.me/27679779340" target="_blank" class="btn-wa">💬 WhatsApp Us</a>
-      <a href="#cyber" class="btn-outline">🔐 Security Audit</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">48hr</div>
-        <div class="hero-stat-label">Landing page delivery</div>
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">Web development + cybersecurity</div>
+      <h1>We build it.<br><span class="gradient-text">We lock it down.</span></h1>
+      <p>Websites for Durban and KZN businesses, tested for security before they go live.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get a free quote</a>
+        <a href="https://wa.me/27679779340" target="_blank" rel="noopener" class="btn btn-ghost">WhatsApp us</a>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">2-in-1</div>
-        <div class="hero-stat-label">Only firm in KZN</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">POPIA</div>
-        <div class="hero-stat-label">Compliance audits</div>
+      <div class="hero-note"><span class="dot"></span>Taking new projects. Reply within 24 hours.</div>
+    </div>
+    <div class="terminal" aria-hidden="true">
+      <div class="term-bar"><i></i><i></i><i></i></div>
+      <div class="term-body">
+        <div><span class="p">$</span> tcdigital build --site yourbusiness.co.za</div>
+        <div class="c">  pages, mobile, SEO .......... <span class="g">done</span></div>
+        <div class="c">  PayFast checkout ............ <span class="g">done</span></div>
+        <div><span class="p">$</span> tcdigital scan yourbusiness.co.za</div>
+        <div class="c">  OWASP top 10 ................ <span class="g">pass</span></div>
+        <div class="c">  SSL / headers ............... <span class="g">pass</span></div>
+        <div class="c">  POPIA checks ................ <span class="g">pass</span></div>
+        <div><span class="y">✓ live and secure</span></div>
       </div>
     </div>
   </div>
-</div>
+</header>
 
-<!-- DIVISION CARDS -->
-<section class="divisions section" id="divisions">
+<section id="services">
   <div class="container">
-    <div class="divisions-grid">
+    <div class="eyebrow">Services</div>
+    <h2>Two things, <span class="gradient-text">done properly.</span></h2>
+    <p class="lead">Start with a website. Add security when you need it, or get both from day one.</p>
 
-      <!-- Web Dev -->
-      <div class="div-card div-card-web">
-        <span class="div-badge">Primary Service</span>
-        <div class="div-icon div-icon-web">🌐</div>
-        <h2 class="gradient-text">Web Development</h2>
-        <p>Custom-built websites and web apps tailored for South African businesses. Fast delivery, mobile-first, PayFast ready.</p>
-        <ul class="div-list">
-          <li>Business & portfolio websites</li>
-          <li>E-commerce stores with PayFast/Ozow</li>
-          <li>Booking & appointment systems</li>
-          <li>Landing pages in 48 hours</li>
-          <li>Managed cPanel hosting</li>
-          <li>SEO & performance optimisation</li>
-        </ul>
-        <a href="#services" class="div-btn-web">See Web Packages →</a>
-      </div>
-
-      <!-- Cybersecurity -->
-      <div class="div-card div-card-cyber">
-        <span class="div-badge div-badge-cyber">Premium Service</span>
-        <div class="div-icon div-icon-cyber">🔐</div>
-        <h2 class="cyber-text">Cybersecurity</h2>
-        <p>We find the holes before attackers do. Web audits, POPIA compliance, penetration testing, and staff training for KZN businesses.</p>
-        <ul class="div-list">
-          <li>Web application security audits</li>
-          <li>POPIA compliance audits</li>
-          <li>Network penetration testing</li>
-          <li>Phishing simulation & staff training</li>
-          <li>WiFi security assessments</li>
-          <li>Monthly security monitoring</li>
-        </ul>
-        <a href="#cyber" class="div-btn-cyber">See Security Services →</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- WEB SERVICES -->
-<section class="web-services section" id="services">
-  <div class="container">
-    <div class="section-head">
-      <span class="tag">Web Development</span>
-      <h2>Websites That Work <span class="gradient-text">For You</span></h2>
-      <p>From a simple landing page to a full e-commerce store — built fast, built right, built secure.</p>
-    </div>
     <div class="services-grid">
-      <div class="service-card">
-        <span class="service-icon">🏢</span>
-        <h3>Business Website</h3>
-        <p>4–6 pages, mobile-first, SEO-ready. Professional online presence for your business with contact form and Google Maps integration.</p>
-        <span class="service-price">From R4,500</span>
+      <div class="svc svc-web">
+        <h3 class="gradient-text">Web Development</h3>
+        <p>Fast, mobile-friendly sites that bring in customers.</p>
+        <ul>
+          <li><span>Landing page (48hr)</span><span>from R2,500</span></li>
+          <li><span>Business website</span><span>from R4,500</span></li>
+          <li><span>Booking system</span><span>from R8,000</span></li>
+          <li><span>Online store (PayFast/Ozow)</span><span>from R12,000</span></li>
+          <li><span>Hosting & maintenance</span><span>from R350/mo</span></li>
+        </ul>
       </div>
-      <div class="service-card featured">
-        <span class="service-icon">🛒</span>
-        <h3>E-Commerce Store</h3>
-        <p>Full online shop with PayFast or Ozow payment integration. Product management, cart, and order tracking built in.</p>
-        <span class="service-price">From R12,000</span>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">📅</span>
-        <h3>Booking System</h3>
-        <p>Appointment and reservation system for clinics, salons, coaches, and service businesses. Automated confirmations included.</p>
-        <span class="service-price">From R8,000</span>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🚀</span>
-        <h3>Landing Page</h3>
-        <p>Single high-converting page for your product or service. Delivered in 48 hours. Perfect for campaigns and new launches.</p>
-        <span class="service-price">From R2,500</span>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🔄</span>
-        <h3>Website Redesign</h3>
-        <p>Transform your outdated site into a modern, fast, mobile-optimised experience that converts visitors into customers.</p>
-        <span class="service-price">From R5,000</span>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🖥️</span>
-        <h3>Hosting & Maintenance</h3>
-        <p>Managed cPanel hosting with SSL, backups, email accounts, and monthly updates. Your site stays fast and online.</p>
-        <span class="service-price">R350–R800/mo</span>
+      <div class="svc svc-cyber">
+        <h3 class="cyber-text">Cybersecurity</h3>
+        <p>Find the holes before attackers do.</p>
+        <ul>
+          <li><span>Website security audit</span><span>from R3,500</span></li>
+          <li><span>POPIA compliance audit<span class="badge">SA law</span></span><span>from R5,000</span></li>
+          <li><span>Phishing test & staff training</span><span>from R4,000</span></li>
+          <li><span>Network penetration test</span><span>from R10,000</span></li>
+          <li><span>Monthly monitoring</span><span>from R2,500/mo</span></li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CYBERSECURITY SERVICES -->
-<section class="cyber-section section" id="cyber">
+<section id="how" style="padding-top:0">
   <div class="container">
-    <div class="section-head">
-      <span class="tag tag-cyan">Cybersecurity</span>
-      <h2>Protect Your Business <span class="cyber-text">Before It's Too Late</span></h2>
-      <p>Most KZN businesses have never had a security audit. One breach can cost more than your annual revenue. Don't wait.</p>
-    </div>
-    <div class="cyber-grid">
-      <div class="cyber-card">
-        <span class="cyber-card-icon">🔍</span>
-        <h3>Web Application Security Audit</h3>
-        <p>We test your website for SQL injection, XSS, exposed admin panels, insecure forms, and 50+ known vulnerabilities. Full written report with fixes.</p>
-        <span class="cyber-price">R3,500 – R12,000</span>
-      </div>
-      <div class="cyber-card">
-        <span class="cyber-card-icon">🏛️</span>
-        <h3>POPIA Compliance Audit <span class="popia-badge">⚖️ SA Law</span></h3>
-        <p>South African businesses are legally required to protect customer data under POPIA. We audit your systems and provide a compliance roadmap.</p>
-        <span class="cyber-price">R5,000 – R15,000</span>
-      </div>
-      <div class="cyber-card">
-        <span class="cyber-card-icon">🎯</span>
-        <h3>Network Penetration Test</h3>
-        <p>Authorised simulated attack on your internal network. We find vulnerabilities in routers, servers, and connected devices before hackers do.</p>
-        <span class="cyber-price">R10,000 – R35,000</span>
-      </div>
-      <div class="cyber-card">
-        <span class="cyber-card-icon">🎣</span>
-        <h3>Phishing Simulation & Training</h3>
-        <p>We send a controlled fake phishing campaign to your staff and measure who clicks. Then we train everyone with a report on results.</p>
-        <span class="cyber-price">R4,000 – R12,000</span>
-      </div>
-      <div class="cyber-card">
-        <span class="cyber-card-icon">📡</span>
-        <h3>WiFi Security Audit</h3>
-        <p>Test your office or business WiFi for weak passwords, rogue access points, and vulnerabilities that could expose your entire network.</p>
-        <span class="cyber-price">R2,500 – R6,000</span>
-      </div>
-      <div class="cyber-card">
-        <span class="cyber-card-icon">🛡️</span>
-        <h3>Monthly Security Monitoring</h3>
-        <p>Ongoing threat monitoring, log analysis, and monthly security reports. Your business stays protected 24/7 without hiring a full-time team.</p>
-        <span class="cyber-price">R2,500 – R6,000/mo</span>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:48px">
-      <a href="#contact" class="div-btn-cyber" style="font-size:15px;padding:14px 32px">🔐 Request a Free Security Consultation →</a>
+    <div class="eyebrow">How it works</div>
+    <h2>Three steps. No fuss.</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Tell us what you need</h3><p>Fill in the form or WhatsApp us. We send a fixed quote within 24 hours.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>We build or test</h3><p>You see progress as we go. Security checks are included on every site.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Go live</h3><p>We launch, hand over, and stay on call for hosting and support.</p></div>
     </div>
   </div>
 </section>
 
-<!-- WHY TCDIGITAL -->
-<section class="why-section section">
-  <div class="container">
-    <div class="section-head">
-      <span class="tag tag-green">Why TcDigital</span>
-      <h2>The Only Firm in KZN <span class="gradient-text">That Does Both</span></h2>
-      <p>We don't just build your website and disappear. We build it secure, host it, and protect it.</p>
-    </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(124,58,237,0.12)">⚡</div>
-        <h3>AI-Assisted Speed</h3>
-        <p>We use cutting-edge AI tools in our workflow. Landing pages in 48hrs, full sites in days — not weeks like traditional agencies.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(6,182,212,0.1)">🔐</div>
-        <h3>Built Secure From Day One</h3>
-        <p>Every website we build is hardened against common attacks. Security isn't an afterthought — it's in the foundation.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(16,185,129,0.1)">🇿🇦</div>
-        <h3>Local, SA-Specific</h3>
-        <p>PayFast, Ozow, POPIA compliance, Rand pricing. We understand the SA market. No dollar invoices, no overseas delays.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(245,158,11,0.1)">📊</div>
-        <h3>Full Reports, No Jargon</h3>
-        <p>Every security audit comes with a plain-English report. You understand exactly what was found and how we fix it.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(239,68,68,0.1)">🎯</div>
-        <h3>KZN Focused</h3>
-        <p>Durban is our base. Most cybersecurity firms are in Joburg — we're your local option with national-level service.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(168,85,247,0.12)">🔄</div>
-        <h3>Ongoing Relationship</h3>
-        <p>We don't disappear after launch. Monthly hosting, security monitoring, and updates keep your business protected long-term.</p>
+<section id="contact" style="padding-top:0">
+  <div class="container contact-grid">
+    <div>
+      <div class="eyebrow">Contact</div>
+      <h2>Let's get you <span class="gradient-text">online and safe.</span></h2>
+      <p class="lead">WhatsApp is the fastest way to reach us.</p>
+      <div class="contact-links">
+        <a href="https://wa.me/27679779340" target="_blank" rel="noopener"><span>💬</span><div><small>WhatsApp</small>067 977 9340</div></a>
+        <a href="mailto:thacollin2@gmail.com"><span>✉️</span><div><small>Email</small>thacollin2@gmail.com</div></a>
       </div>
     </div>
+
+    <form id="contactForm">
+      <div class="row">
+        <div><label for="fname">Name</label><input id="fname" required placeholder="John Dlamini"></div>
+        <div><label for="femail">Email</label><input id="femail" type="email" required placeholder="john@business.co.za"></div>
+      </div>
+      <div>
+        <label for="fservice">What do you need?</label>
+        <select id="fservice" required>
+          <option value="">Choose one</option>
+          <option>Website</option>
+          <option>Online store</option>
+          <option>Security audit</option>
+          <option>POPIA compliance</option>
+          <option>Website + security</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div><label for="fmessage">Message</label><textarea id="fmessage" required placeholder="A few lines about your business and what you want."></textarea></div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Send message →</button>
+      <div class="form-success" id="formSuccess">Message sent. We'll reply within 24 hours.</div>
+    </form>
   </div>
 </section>
 
-<!-- WHAT WE BUILD -->
-<section class="examples-section section" id="examples">
-  <div class="container">
-    <div class="section-head">
-      <span class="tag">What We Build</span>
-      <h2>Industries We <span class="gradient-text">Serve</span></h2>
-      <p>If your business needs an online presence or security protection, we've got you.</p>
-    </div>
-    <div class="examples-grid">
-      <div class="example-card"><span class="example-emoji">🏥</span><div><h4>Clinics & Healthcare</h4><p>Booking systems, patient portals, POPIA-compliant data handling</p></div></div>
-      <div class="example-card"><span class="example-emoji">🛍️</span><div><h4>Retail & E-Commerce</h4><p>Online stores with PayFast, inventory management, order tracking</p></div></div>
-      <div class="example-card"><span class="example-emoji">🍕</span><div><h4>Restaurants & Food</h4><p>Menus, online ordering, table reservations, delivery integration</p></div></div>
-      <div class="example-card"><span class="example-emoji">💼</span><div><h4>Professional Services</h4><p>Law firms, accountants, consultants — credibility-driven sites</p></div></div>
-      <div class="example-card"><span class="example-emoji">🏗️</span><div><h4>Construction & Trade</h4><p>Portfolio sites, quote request forms, project showcases</p></div></div>
-      <div class="example-card"><span class="example-emoji">💅</span><div><h4>Beauty & Wellness</h4><p>Salons, spas, personal trainers — booking and branding sites</p></div></div>
-      <div class="example-card"><span class="example-emoji">🎓</span><div><h4>Schools & Education</h4><p>Enrolment forms, parent portals, learning management systems</p></div></div>
-      <div class="example-card"><span class="example-emoji">🏠</span><div><h4>Real Estate</h4><p>Property listings, virtual tours, lead capture, agent profiles</p></div></div>
-      <div class="example-card"><span class="example-emoji">🔧</span><div><h4>Any Business</h4><p>If you're in KZN and need a site or security — let's talk</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="process-section section" id="process">
-  <div class="container">
-    <div class="section-head">
-      <span class="tag">How It Works</span>
-      <h2>From Brief to <span class="gradient-text">Live in Days</span></h2>
-      <p>A simple, transparent process with no surprises.</p>
-    </div>
-    <div class="process-steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Brief</h3>
-        <p>Fill in our project form below. Tell us what you need, your budget, and your deadline.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Quote</h3>
-        <p>We review your brief and send a fixed-price quote within 24 hours. No surprises.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Build</h3>
-        <p>We design and build. You review and give feedback. We revise until it's perfect.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>Launch + Secure</h3>
-        <p>We deploy your site and run a security check. You go live knowing it's protected.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STACK -->
-<section class="stack-section section">
-  <div class="container">
-    <div class="section-head" style="margin-bottom:40px">
-      <span class="tag">Tech Stack</span>
-      <h2 style="font-size:28px">Tools We Use</h2>
-    </div>
-    <div class="stack-chips">
-      <span class="chip">HTML / CSS / JS</span>
-      <span class="chip">React</span>
-      <span class="chip">Node.js</span>
-      <span class="chip">Supabase</span>
-      <span class="chip">PostgreSQL</span>
-      <span class="chip">Vercel</span>
-      <span class="chip">cPanel</span>
-      <span class="chip">PayFast</span>
-      <span class="chip">Ozow</span>
-      <span class="chip">Kali Linux</span>
-      <span class="chip">Burp Suite</span>
-      <span class="chip">Metasploit</span>
-      <span class="chip">OWASP ZAP</span>
-      <span class="chip">Nmap</span>
-      <span class="chip">GoPhish</span>
-      <span class="chip">Nikto</span>
-      <span class="chip">Aircrack-ng</span>
-      <span class="chip">Wireshark</span>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-section section" id="contact">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info">
-        <span class="tag" style="margin-bottom:20px;display:inline-flex">Let's Talk</span>
-        <h2>Ready to Build or <span class="gradient-text">Secure Your Business?</span></h2>
-        <p>Fill in the form and we'll respond within 24 hours. Or reach out directly — WhatsApp is fastest.</p>
-        <div class="contact-links">
-          <a href="https://wa.me/27679779340" target="_blank" class="contact-link">
-            <span class="contact-link-icon">💬</span>
-            <div><small>WhatsApp (Fastest)</small><strong>067 977 9340</strong></div>
-          </a>
-          <a href="tel:+27679779340" class="contact-link">
-            <span class="contact-link-icon">📞</span>
-            <div><small>Call Us</small><strong>067 977 9340</strong></div>
-          </a>
-          <a href="mailto:thacollin2@gmail.com" class="contact-link">
-            <span class="contact-link-icon">✉️</span>
-            <div><small>Email</small><strong>thacollin2@gmail.com</strong></div>
-          </a>
-          <div class="contact-link" style="cursor:default">
-            <span class="contact-link-icon">📍</span>
-            <div><small>Location</small><strong>Durban, KwaZulu-Natal, SA</strong></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-form">
-        <form id="contactForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Your Name *</label>
-              <input type="text" id="fname" placeholder="John Dlamini" required>
-            </div>
-            <div class="form-group">
-              <label>Email *</label>
-              <input type="email" id="femail" placeholder="john@business.co.za" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Business Name</label>
-            <input type="text" id="fbusiness" placeholder="Your Business (optional)">
-          </div>
-          <div class="form-group">
-            <label>Service Needed *</label>
-            <select id="fservice" required>
-              <option value="">— Select a service —</option>
-              <optgroup label="🌐 Web Development">
-                <option>Business Website</option>
-                <option>E-Commerce Store</option>
-                <option>Booking System</option>
-                <option>Landing Page</option>
-                <option>Website Redesign</option>
-                <option>Hosting & Maintenance</option>
-              </optgroup>
-              <optgroup label="🔐 Cybersecurity">
-                <option>Web Application Security Audit</option>
-                <option>POPIA Compliance Audit</option>
-                <option>Network Penetration Test</option>
-                <option>Phishing Simulation & Training</option>
-                <option>WiFi Security Audit</option>
-                <option>Monthly Security Monitoring</option>
-              </optgroup>
-              <option>Not sure — need advice</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Budget Range</label>
-            <select id="fbudget">
-              <option value="">— Select budget —</option>
-              <option>Under R5,000</option>
-              <option>R5,000 – R15,000</option>
-              <option>R15,000 – R35,000</option>
-              <option>R35,000+</option>
-              <option>Monthly retainer</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Tell Us More *</label>
-            <textarea id="fmessage" placeholder="Describe what you need, your deadline, and any other details..." required></textarea>
-          </div>
-          <button type="submit" class="form-submit" id="submitBtn">
-            <span>Send Message</span> <span>→</span>
-          </button>
-          <div class="form-success" id="formSuccess">
-            ✅ Message sent! We'll reply within 24 hours.
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-logo">TcDigital</div>
-      <div class="footer-copy">© 2025 TcDigital · Durban, KwaZulu-Natal, South Africa</div>
-      <div class="footer-links">
-        <a href="#services">Web Dev</a>
-        <a href="#cyber">Security</a>
-        <a href="#contact">Contact</a>
-        <a href="https://wa.me/27679779340" target="_blank">WhatsApp</a>
-      </div>
-    </div>
+  <div class="container footer-inner">
+    <div class="footer-logo">TcDigital</div>
+    <div>© 2026 TcDigital · Durban, KwaZulu-Natal</div>
   </div>
 </footer>
 
@@ -886,32 +250,18 @@
   const SUPABASE_URL = 'https://cjzewfvtdayjgjdpdmln.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqemV3ZnZ0ZGF5amdqZHBkbWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3NTQzODMsImV4cCI6MjA2NTMzMDM4M30.nhO8RbCIGkUxrkDpJqNsEEsMKdBMbXb64YkRFGxFB7w';
 
-  // mobile menu
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
-  }
-
-  // nav scroll effect
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('nav');
-    nav.style.background = window.scrollY > 40
-      ? 'rgba(10,10,15,0.95)'
-      : 'rgba(10,10,15,0.8)';
-  });
-
-  // contact form
-  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
-    btn.innerHTML = '<span>Sending…</span>';
+    btn.textContent = 'Sending…';
     btn.disabled = true;
 
     const payload = {
       name: document.getElementById('fname').value.trim(),
       email: document.getElementById('femail').value.trim(),
-      business: document.getElementById('fbusiness').value.trim() || null,
+      business: null,
       service: document.getElementById('fservice').value,
-      budget: document.getElementById('fbudget').value || null,
+      budget: null,
       message: document.getElementById('fmessage').value.trim(),
     };
 
@@ -926,16 +276,12 @@
         },
         body: JSON.stringify(payload),
       });
-
-      if (res.ok || res.status === 201) {
-        document.getElementById('formSuccess').style.display = 'block';
-        this.reset();
-        btn.innerHTML = '<span>✅ Sent!</span>';
-      } else {
-        throw new Error('Server error');
-      }
+      if (!res.ok) throw new Error();
+      document.getElementById('formSuccess').style.display = 'block';
+      this.reset();
+      btn.textContent = 'Sent ✓';
     } catch {
-      btn.innerHTML = '<span>Failed — try WhatsApp instead</span>';
+      btn.textContent = 'Failed. Try WhatsApp instead';
       btn.disabled = false;
     }
   });
