@@ -3,20 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thabiso Collin Sengane — Web Developer & IT Support | Durban</title>
-<meta name="description" content="Durban-based freelance web developer and IT support specialist. Websites, online stores, and web apps for South African businesses.">
+<title>TcDigital — Web Development & Cybersecurity | Durban, South Africa</title>
+<meta name="description" content="Durban-based web development and cybersecurity company. We build fast, beautiful websites — and then lock them down. Serving KZN businesses.">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #0a0a0f;
-    --bg2: #12121a;
-    --bg3: #1a1a26;
-    --surface: #1e1e2e;
-    --surface2: #262638;
-    --border: #2e2e44;
-    --border-light: #3a3a54;
+    --bg2: #0d0d14;
+    --bg3: #12121c;
+    --surface: #16161f;
+    --surface2: #1e1e2e;
+    --surface3: #252538;
+    --border: #2a2a3e;
+    --border-light: #363654;
     --white: #f0f0ff;
-    --muted: #8b8ba8;
+    --muted: #7878a0;
+    --muted2: #9898b8;
     --accent: #7c3aed;
     --accent2: #a855f7;
     --accent3: #ec4899;
@@ -24,950 +26,919 @@
     --green: #10b981;
     --gold: #f59e0b;
     --red: #ef4444;
+    --orange: #f97316;
     --gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
-    --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(236,72,153,0.1) 100%);
+    --gradient-cyber: linear-gradient(135deg, #06b6d4 0%, #7c3aed 50%, #a855f7 100%);
+    --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(236,72,153,0.07) 100%);
     --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
     --radius: 12px;
     --radius-lg: 20px;
+    --radius-xl: 28px;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font); background: var(--bg); color: var(--white); line-height: 1.6; }
+  body { font-family: var(--font); background: var(--bg); color: var(--white); line-height: 1.6; overflow-x: hidden; }
 
-  /* GLOW UTILS */
-  .glow-purple { box-shadow: 0 0 40px rgba(124,58,237,0.3); }
-  .glow-pink { box-shadow: 0 0 40px rgba(236,72,153,0.2); }
+  /* ── NOISE OVERLAY ─────────────────────────────────────────────────── */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
 
-  /* NAV */
+  /* ── UTILS ─────────────────────────────────────────────────────────── */
+  .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cyber-text { background: var(--gradient-cyber); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .glow { box-shadow: 0 0 60px rgba(124,58,237,0.25); }
+  .section { position: relative; z-index: 1; }
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(124,58,237,0.12); color: var(--accent2);
+    border: 1px solid rgba(124,58,237,0.25); padding: 5px 14px;
+    border-radius: 30px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .tag-cyan { background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.25); }
+  .tag-green { background: rgba(16,185,129,0.1); color: var(--green); border-color: rgba(16,185,129,0.25); }
+
+  /* ── NAV ────────────────────────────────────────────────────────────── */
   nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(10,10,15,0.8); backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px; height: 64px;
+    padding: 0 48px; height: 68px;
+    transition: all 0.3s;
   }
   .nav-logo {
-    font-weight: 900; font-size: 20px; text-decoration: none; letter-spacing: -0.04em;
+    font-weight: 900; font-size: 22px; text-decoration: none; letter-spacing: -0.05em;
     background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .nav-links { display: flex; gap: 32px; }
+  .nav-logo span { color: var(--muted); -webkit-text-fill-color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; vertical-align: middle; letter-spacing: 0; }
+  .nav-links { display: flex; gap: 36px; }
   .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
   .nav-links a:hover { color: var(--white); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
   .nav-cta {
     background: var(--gradient); color: #fff; padding: 9px 22px; border-radius: 8px;
-    text-decoration: none; font-size: 14px; font-weight: 700; transition: all 0.2s; border: none;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+    text-decoration: none; font-size: 13px; font-weight: 700; transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.35);
   }
-  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(124,58,237,0.5); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted2); border-radius: 2px; transition: all 0.3s; }
+  .mobile-menu {
+    display: none; position: fixed; top: 68px; left: 0; right: 0; z-index: 199;
+    background: rgba(10,10,15,0.97); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border); padding: 24px;
+    flex-direction: column; gap: 8px;
+  }
+  .mobile-menu a { color: var(--muted2); text-decoration: none; font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .mobile-menu a:last-child { border: none; }
+  .mobile-menu.open { display: flex; }
 
-  /* HERO */
+  /* ── HERO ────────────────────────────────────────────────────────────── */
   .hero-wrap {
-    position: relative; overflow: hidden;
-    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,0.25) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(236,72,153,0.12) 0%, transparent 50%),
-                var(--bg);
+    position: relative; min-height: 100vh; display: flex; align-items: center;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% -5%, rgba(124,58,237,0.2) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 85% 70%, rgba(236,72,153,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 30% 30% at 10% 80%, rgba(6,182,212,0.06) 0%, transparent 50%),
+      var(--bg);
+    padding-top: 68px;
+    overflow: hidden;
   }
-  .hero { max-width: 860px; margin: 0 auto; padding: 120px 32px 100px; text-align: center; position: relative; }
+  /* grid lines background */
+  .hero-wrap::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+  }
+  .hero { max-width: 820px; margin: 0 auto; padding: 80px 24px 100px; text-align: center; position: relative; z-index: 1; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(124,58,237,0.15); color: var(--accent2); border: 1px solid rgba(124,58,237,0.3);
-    padding: 7px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 32px;
+    background: rgba(124,58,237,0.1); color: var(--accent2);
+    border: 1px solid rgba(124,58,237,0.25); padding: 8px 20px;
+    border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 36px;
+    letter-spacing: 0.05em; text-transform: uppercase;
     backdrop-filter: blur(10px);
   }
-  .hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; box-shadow: 0 0 8px var(--green); }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.85)} }
-  .hero h1 { font-size: clamp(40px, 7.5vw, 72px); font-weight: 900; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 24px; }
-  .hero h1 .hi { color: var(--muted); font-weight: 400; font-size: 0.48em; display: block; margin-bottom: 10px; letter-spacing: 0; }
-  .hero h1 .name { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero p { font-size: 19px; color: var(--muted); max-width: 580px; margin: 0 auto 40px; line-height: 1.65; }
-  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .btn-gradient {
-    background: var(--gradient); color: #fff; padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px; transition: all 0.25s;
-    display: inline-flex; align-items: center; gap: 8px;
-    box-shadow: 0 4px 24px rgba(124,58,237,0.45);
+  .hero-badge .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 {
+    font-size: clamp(42px, 7vw, 76px); font-weight: 900; line-height: 1.02;
+    letter-spacing: -0.04em; margin-bottom: 28px;
   }
-  .btn-gradient:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(124,58,237,0.55); }
+  .hero h1 .line1 { display: block; color: var(--white); }
+  .hero h1 .line2 { display: block; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub { font-size: 19px; color: var(--muted2); max-width: 540px; margin: 0 auto 48px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 64px; }
+  .btn-primary {
+    background: var(--gradient); color: #fff; padding: 15px 32px; border-radius: 10px;
+    text-decoration: none; font-weight: 700; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
+    box-shadow: 0 4px 28px rgba(124,58,237,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 44px rgba(124,58,237,0.55); }
   .btn-wa {
     background: linear-gradient(135deg, #128C7E, #25D366); color: #fff; padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px; transition: all 0.25s;
-    display: inline-flex; align-items: center; gap: 8px;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    text-decoration: none; font-weight: 700; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.25);
   }
-  .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(37,211,102,0.45); }
+  .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(37,211,102,0.4); }
   .btn-outline {
     background: transparent; color: var(--white); padding: 15px 32px; border-radius: 10px;
-    text-decoration: none; font-weight: 700; font-size: 15px; border: 1.5px solid var(--border-light);
-    transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; font-weight: 700; font-size: 15px;
+    border: 1.5px solid var(--border-light); display: inline-flex; align-items: center; gap: 9px; transition: all 0.25s;
   }
-  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-1px); }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
-  /* STATS */
-  .stats {
-    background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    padding: 40px 32px; display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
+  /* hero stats */
+  .hero-stats {
+    display: flex; justify-content: center; gap: 0;
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
+    overflow: hidden; max-width: 560px; margin: 0 auto;
   }
-  .stat { text-align: center; }
-  .stat-num {
-    font-size: 36px; font-weight: 900; letter-spacing: -0.04em; line-height: 1;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .hero-stat { flex: 1; padding: 20px 16px; text-align: center; border-right: 1px solid var(--border); }
+  .hero-stat:last-child { border: none; }
+  .hero-stat-num { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 3px; }
 
-  /* SECTION */
-  section { padding: 96px 32px; max-width: 1120px; margin: 0 auto; }
-  .full-bleed { max-width: 100%; padding-left: 0; padding-right: 0; }
-  .full-bleed > .inner { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
-  .section-label {
-    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;
-    margin-bottom: 12px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  /* ── DIVISION CARDS ──────────────────────────────────────────────────── */
+  .divisions { padding: 100px 0; position: relative; z-index: 1; }
+  .divisions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .div-card {
+    border-radius: var(--radius-xl); padding: 48px 40px; position: relative; overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--white); }
-  .section-sub { font-size: 16px; color: var(--muted); max-width: 520px; margin-bottom: 56px; line-height: 1.65; }
-
-  /* ABOUT */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-  .about-bio p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; }
-  .about-bio p strong { color: var(--white); }
-  .experience-list { display: flex; flex-direction: column; gap: 16px; }
-  .exp-item {
-    padding: 22px 24px; border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); transition: border-color 0.25s, transform 0.25s;
+  .div-card:hover { transform: translateY(-6px); }
+  .div-card-web {
+    background: linear-gradient(145deg, #16161f 0%, #1a1a2e 100%);
+    box-shadow: 0 0 80px rgba(168,85,247,0.08);
   }
-  .exp-item:hover { border-color: var(--accent); transform: translateX(4px); }
-  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; gap: 12px; }
-  .exp-company { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: var(--white); }
-  .exp-period { font-size: 11px; color: var(--muted); font-weight: 600; white-space: nowrap; background: var(--bg3); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .exp-role { font-size: 13px; font-weight: 600; color: var(--accent2); margin-bottom: 10px; }
-  .exp-bullets { list-style: none; }
-  .exp-bullets li { font-size: 13px; color: var(--muted); padding: 2px 0 2px 16px; position: relative; line-height: 1.55; }
-  .exp-bullets li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); font-size: 10px; top: 4px; }
-
-  /* WHAT WE BUILD */
-  .examples-intro { font-size: 15px; color: var(--muted); margin-bottom: 40px; max-width: 600px; line-height: 1.65; }
-  .examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .example-card {
-    padding: 24px 26px; border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); transition: all 0.25s; cursor: default;
-    position: relative; overflow: hidden;
+  .div-card-web:hover { box-shadow: 0 20px 80px rgba(168,85,247,0.18); }
+  .div-card-cyber {
+    background: linear-gradient(145deg, #0f1620 0%, #111827 100%);
+    box-shadow: 0 0 80px rgba(6,182,212,0.06);
+    border-color: rgba(6,182,212,0.15);
   }
-  .example-card::before {
+  .div-card-cyber:hover { box-shadow: 0 20px 80px rgba(6,182,212,0.15); }
+  .div-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    opacity: 0; transition: opacity 0.25s;
   }
-  .example-card.c1::before { background: linear-gradient(90deg, #7c3aed, #a855f7); }
-  .example-card.c2::before { background: linear-gradient(90deg, #ec4899, #f43f5e); }
-  .example-card.c3::before { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
-  .example-card.c4::before { background: linear-gradient(90deg, #10b981, #059669); }
-  .example-card.c5::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
-  .example-card.c6::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
-  .example-card.c7::before { background: linear-gradient(90deg, #06b6d4, #10b981); }
-  .example-card.c8::before { background: linear-gradient(90deg, #f43f5e, #f59e0b); }
-  .example-card.c9::before { background: linear-gradient(90deg, #a855f7, #06b6d4); }
-  .example-card:hover { border-color: var(--border-light); transform: translateY(-3px); background: var(--surface2); }
-  .example-card:hover::before { opacity: 1; }
-  .example-emoji { font-size: 28px; margin-bottom: 12px; display: block; }
-  .example-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px; letter-spacing: -0.01em; }
-  .example-desc { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 12px; }
-  .example-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .example-tag { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
-  .et-purple { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.25); }
-  .et-pink   { background: rgba(236,72,153,0.12); color: #f9a8d4; border: 1px solid rgba(236,72,153,0.25); }
-  .et-cyan   { background: rgba(6,182,212,0.12);  color: #67e8f9; border: 1px solid rgba(6,182,212,0.25); }
-  .et-green  { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
-  .et-gold   { background: rgba(245,158,11,0.12); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
+  .div-card-web::before { background: var(--gradient); }
+  .div-card-cyber::before { background: var(--gradient-cyber); }
+  .div-icon {
+    width: 60px; height: 60px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    margin-bottom: 24px;
+  }
+  .div-icon-web { background: rgba(124,58,237,0.15); }
+  .div-icon-cyber { background: rgba(6,182,212,0.12); }
+  .div-card h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+  .div-card p { color: var(--muted2); font-size: 15px; line-height: 1.7; margin-bottom: 28px; }
+  .div-list { list-style: none; margin-bottom: 36px; display: flex; flex-direction: column; gap: 10px; }
+  .div-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted2); }
+  .div-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .div-card-web .div-list li::before { background: var(--accent2); }
+  .div-card-cyber .div-list li::before { background: var(--cyan); }
+  .div-btn-web {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gradient); color: #fff; padding: 12px 24px; border-radius: 9px;
+    text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+  }
+  .div-btn-web:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.45); }
+  .div-btn-cyber {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #06b6d4, #7c3aed); color: #fff; padding: 12px 24px; border-radius: 9px;
+    text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(6,182,212,0.25);
+  }
+  .div-btn-cyber:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(6,182,212,0.4); }
+  .div-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25);
+    padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .div-badge-cyber {
+    background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.25);
+  }
 
-  /* PROJECTS */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
-  .project-card {
-    border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
-    transition: box-shadow 0.3s, transform 0.3s; background: var(--surface);
-  }
-  .project-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--border-light); transform: translateY(-5px); }
-  .project-thumb { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 64px; position: relative; }
-  .project-thumb.pulsify { background: linear-gradient(135deg, #0d0d0d 0%, #1a0533 50%, #2d1b69 100%); }
-  .project-thumb.mzansi { background: linear-gradient(135deg, #0a1628 0%, #1a3a2a 50%, #0d4f35 100%); }
-  .project-thumb.totallydiff { background: linear-gradient(135deg, #1a0a0a 0%, #2d1218 50%, #3d1a22 100%); }
-  .project-body { padding: 24px; }
-  .project-title { font-size: 19px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--white); }
-  .project-desc { font-size: 14px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-  .tag { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
-  .project-links { display: flex; gap: 10px; }
-  .proj-link {
-    text-decoration: none; font-size: 13px; font-weight: 700; padding: 9px 18px; border-radius: 8px;
-    transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
-  }
-  .proj-link.live { background: var(--gradient); color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,0.35); }
-  .proj-link.live:hover { box-shadow: 0 6px 24px rgba(124,58,237,0.5); transform: translateY(-1px); }
-  .proj-link.secondary { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
-  .proj-link.secondary:hover { border-color: var(--accent); color: var(--accent2); }
+  /* ── SECTION HEADINGS ────────────────────────────────────────────────── */
+  .section-head { text-align: center; margin-bottom: 64px; }
+  .section-head h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 900; letter-spacing: -0.03em; margin: 16px 0 16px; }
+  .section-head p { color: var(--muted2); font-size: 17px; max-width: 520px; margin: 0 auto; line-height: 1.7; }
 
-  /* SERVICES */
-  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  /* ── WEB SERVICES ────────────────────────────────────────────────────── */
+  .web-services { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .service-card {
-    padding: 28px 26px; border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); transition: all 0.25s; position: relative; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px 28px; transition: all 0.3s; position: relative; overflow: hidden;
   }
   .service-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-    background: var(--gradient); opacity: 0; transition: opacity 0.25s;
+    content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg);
+    background: var(--gradient-subtle); opacity: 0; transition: opacity 0.3s;
   }
-  .service-card:hover { border-color: var(--border-light); transform: translateY(-3px); background: var(--surface2); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .service-card:hover { border-color: rgba(168,85,247,0.35); transform: translateY(-4px); box-shadow: 0 12px 48px rgba(124,58,237,0.12); }
   .service-card:hover::after { opacity: 1; }
-  .service-icon { font-size: 32px; margin-bottom: 16px; }
-  .service-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; color: var(--white); letter-spacing: -0.02em; }
-  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
-  .service-price { font-size: 14px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .service-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+  .service-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .service-price {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(124,58,237,0.1); color: var(--accent2);
+    border: 1px solid rgba(124,58,237,0.2); padding: 5px 14px;
+    border-radius: 20px; font-size: 13px; font-weight: 700;
+  }
+  .service-card.featured { border-color: rgba(168,85,247,0.4); background: linear-gradient(145deg, #1a1a2e, #1e1e38); }
 
-  /* PROCESS */
-  .process-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+  /* ── CYBER SERVICES ──────────────────────────────────────────────────── */
+  .cyber-section {
+    padding: 100px 0; position: relative; z-index: 1;
+    background:
+      radial-gradient(ellipse 60% 50% at 0% 50%, rgba(6,182,212,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 100% 50%, rgba(124,58,237,0.06) 0%, transparent 60%),
+      var(--bg);
+  }
+  .cyber-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .cyber-card {
+    background: var(--surface); border: 1px solid rgba(6,182,212,0.12);
+    border-radius: var(--radius-lg); padding: 32px 28px; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .cyber-card::before {
+    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+    background: var(--gradient-cyber); border-radius: 3px 0 0 3px; opacity: 0; transition: opacity 0.3s;
+  }
+  .cyber-card:hover { border-color: rgba(6,182,212,0.3); transform: translateX(4px); box-shadow: 0 8px 40px rgba(6,182,212,0.08); }
+  .cyber-card:hover::before { opacity: 1; }
+  .cyber-card-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .cyber-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+  .cyber-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .cyber-price {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(6,182,212,0.08); color: var(--cyan);
+    border: 1px solid rgba(6,182,212,0.2); padding: 4px 12px;
+    border-radius: 20px; font-size: 12px; font-weight: 700;
+  }
+  .popia-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(245,158,11,0.1); color: var(--gold);
+    border: 1px solid rgba(245,158,11,0.25); padding: 3px 10px;
+    border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; margin-left: 8px;
+  }
+
+  /* ── WHY TCDIGITAL ───────────────────────────────────────────────────── */
+  .why-section { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .why-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 36px 28px; text-align: center; transition: all 0.3s;
+  }
+  .why-card:hover { border-color: var(--border-light); transform: translateY(-4px); }
+  .why-icon {
+    width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center; font-size: 26px;
+  }
+  .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .why-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  /* ── PROCESS ─────────────────────────────────────────────────────────── */
+  .process-section { padding: 100px 0; position: relative; z-index: 1; }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; }
+  .process-steps::before {
+    content: ''; position: absolute; top: 32px; left: calc(12.5% + 24px); right: calc(12.5% + 24px);
+    height: 1px; background: linear-gradient(90deg, transparent, var(--accent2), var(--cyan), transparent);
+  }
   .step {
-    display: flex; gap: 16px; align-items: flex-start; padding: 24px;
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-    transition: border-color 0.2s;
+    text-align: center; padding: 32px 20px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); position: relative;
   }
-  .step:hover { border-color: var(--accent); }
-  .step-num { font-size: 28px; font-weight: 900; line-height: 1; flex-shrink: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .step-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; color: var(--white); }
-  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; margin: 0 auto 20px;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+  }
+  .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-  /* CERTS */
-  .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .cert-card {
-    padding: 20px 22px; border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); display: flex; gap: 14px; align-items: flex-start; transition: border-color 0.2s;
+  /* ── WHAT WE BUILD ───────────────────────────────────────────────────── */
+  .examples-section { padding: 100px 0; background: var(--bg2); position: relative; z-index: 1; }
+  .examples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .example-card {
+    background: var(--surface3); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 22px;
+    display: flex; align-items: flex-start; gap: 16px; transition: all 0.25s;
   }
-  .cert-card:hover { border-color: var(--accent); }
-  .cert-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
-  .cert-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; line-height: 1.35; color: var(--white); }
-  .cert-meta { font-size: 12px; color: var(--muted); }
-  .cert-score { font-size: 12px; font-weight: 700; color: var(--green); margin-top: 2px; }
+  .example-card:hover { border-color: var(--border-light); background: var(--surface2); }
+  .example-emoji { font-size: 28px; flex-shrink: 0; }
+  .example-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .example-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
 
-  /* STACK */
-  .stack-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .stack-chip {
-    display: flex; align-items: center; gap: 8px; padding: 11px 18px;
-    border: 1px solid var(--border); border-radius: 9px; font-size: 14px; font-weight: 600;
-    background: var(--surface); color: var(--muted); transition: all 0.2s;
+  /* ── STACK ───────────────────────────────────────────────────────────── */
+  .stack-section { padding: 80px 0; position: relative; z-index: 1; }
+  .stack-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; color: var(--muted2);
+    transition: all 0.2s;
   }
-  .stack-chip:hover { border-color: var(--accent); color: var(--white); transform: translateY(-2px); background: var(--surface2); }
-  .stack-chip .icon { font-size: 18px; }
+  .chip:hover { border-color: var(--border-light); color: var(--white); }
 
-  /* CONTACT */
-  .contact-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; }
-  .contact-info h3 { font-size: 24px; font-weight: 800; margin-bottom: 16px; color: var(--white); letter-spacing: -0.03em; }
-  .contact-info p { color: var(--muted); font-size: 15px; margin-bottom: 28px; line-height: 1.7; }
-  .contact-detail { display: flex; align-items: center; gap: 12px; font-size: 14px; margin-bottom: 14px; color: var(--muted); }
-  .contact-detail a { color: var(--accent2); text-decoration: none; font-weight: 600; }
-  .contact-detail a:hover { text-decoration: underline; }
-  .contact-detail a.wa { color: #34d399; }
-  .sa-badge {
-    margin-top: 32px; padding: 20px 22px; background: rgba(124,58,237,0.08); border-radius: var(--radius);
-    border: 1px solid rgba(124,58,237,0.25); border-left: 3px solid var(--accent);
+  /* ── CONTACT ─────────────────────────────────────────────────────────── */
+  .contact-section {
+    padding: 100px 0; position: relative; z-index: 1;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,58,237,0.12) 0%, transparent 60%),
+      var(--bg);
   }
-  .sa-badge-label { font-size: 11px; font-weight: 800; color: var(--accent2); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-  .sa-badge p { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .contact-info h2 { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.15; }
+  .contact-info p { color: var(--muted2); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px; text-decoration: none; color: var(--white);
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--border-light); transform: translateX(4px); }
+  .contact-link-icon { font-size: 22px; flex-shrink: 0; }
+  .contact-link small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .contact-link strong { font-size: 15px; }
 
-  /* FORM */
-  .contact-form {
-    background: var(--surface); padding: 36px; border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-  }
-  .form-group { margin-bottom: 22px; }
-  .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 13px 16px; border: 1px solid var(--border); border-radius: 8px;
-    font-size: 14px; font-family: var(--font); transition: border-color 0.2s, box-shadow 0.2s;
-    background: var(--bg2); color: var(--white);
-  }
-  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
-  .form-group select option { background: var(--bg2); }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
-  }
-  .form-group textarea { resize: vertical; min-height: 84px; }
-  .check-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-  .check-option {
-    display: flex; align-items: center; gap: 6px; padding: 8px 14px;
-    border: 1px solid var(--border); border-radius: 24px; font-size: 13px;
-    cursor: pointer; background: var(--bg2); transition: all 0.15s; user-select: none;
-    font-weight: 600; color: var(--muted);
-  }
-  .check-option:hover { border-color: var(--accent); color: var(--accent2); }
-  .check-option:has(input:checked) { border-color: var(--accent); background: rgba(124,58,237,0.15); color: var(--accent2); }
-  .check-option input[type="checkbox"], .check-option input[type="radio"] { width: 14px; height: 14px; accent-color: var(--accent2); cursor: pointer; flex-shrink: 0; }
-  .form-note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  /* form */
+  .contact-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .submit-btn {
-    width: 100%; padding: 15px; background: var(--gradient); color: #fff;
-    border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer;
-    transition: all 0.25s; font-family: var(--font); margin-top: 8px; letter-spacing: -0.01em;
-    box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; color: var(--white); font-family: var(--font); font-size: 14px;
+    transition: border-color 0.2s; outline: none;
   }
-  .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(124,58,237,0.55); }
-  .submit-btn:disabled { background: var(--bg3); box-shadow: none; cursor: not-allowed; color: var(--muted); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent2); }
+  .form-group select option { background: var(--bg3); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-submit {
+    width: 100%; background: var(--gradient); color: #fff; border: none; border-radius: 10px;
+    padding: 15px; font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer;
+    transition: all 0.25s; box-shadow: 0 4px 24px rgba(124,58,237,0.35);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(124,58,237,0.5); }
   .form-success {
-    display: none; text-align: center; padding: 32px 20px; font-weight: 700; font-size: 16px;
-    color: var(--green); background: rgba(16,185,129,0.1); border-radius: var(--radius);
-    border: 1px solid rgba(16,185,129,0.3);
-  }
-  .form-error {
-    display: none; padding: 13px 16px; color: var(--red); background: rgba(239,68,68,0.1);
-    border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; font-size: 13px; margin-top: 12px; font-weight: 600;
+    display: none; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+    border-radius: var(--radius); padding: 16px; text-align: center; color: var(--green); font-weight: 600;
+    margin-top: 16px; font-size: 15px;
   }
 
-  /* FOOTER */
+  /* ── FOOTER ──────────────────────────────────────────────────────────── */
   footer {
     background: var(--bg2); border-top: 1px solid var(--border);
-    color: var(--muted); padding: 56px 32px; text-align: center; font-size: 14px;
+    padding: 48px 0 32px; position: relative; z-index: 1;
   }
-  .footer-name {
-    font-size: 22px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.04em;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .footer-tagline { margin-bottom: 24px; color: var(--muted); }
-  footer a { color: var(--accent2); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
-  .footer-links { display: flex; gap: 28px; justify-content: center; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+  .footer-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.04em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .footer-copy { font-size: 13px; color: var(--muted); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
 
-  /* SECTION BGs */
-  .bg-dark { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .bg-subtle { background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(124,58,237,0.07) 0%, transparent 70%), var(--bg); }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
     nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    section { padding: 72px 20px; }
-    .hero { padding: 88px 20px 72px; }
-    .stats { gap: 36px; padding: 32px 20px; }
-    .contact-wrap { grid-template-columns: 1fr; }
-    .about-grid { grid-template-columns: 1fr; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .divisions-grid, .services-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; }
+    .cyber-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    .examples-grid { grid-template-columns: 1fr 1fr; }
     .form-row { grid-template-columns: 1fr; }
-    nav { height: 56px; }
+    .hero h1 { font-size: 40px; }
+    .hero-stats { max-width: 100%; }
+    .contact-info h2 { font-size: 28px; }
+  }
+  @media (max-width: 600px) {
+    .examples-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .hero-stat-num { font-size: 22px; }
+    .div-card { padding: 32px 24px; }
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="#">TC.dev</a>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">TcDigital<span>Durban, SA</span></a>
   <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#examples">What I Build</a>
-    <a href="#projects">Work</a>
-    <a href="#services">Services</a>
+    <a href="#services">Web Dev</a>
+    <a href="#cyber">Cybersecurity</a>
+    <a href="#examples">What We Build</a>
+    <a href="#process">Process</a>
     <a href="#contact">Contact</a>
   </div>
-  <a class="nav-cta" href="#contact">Hire Me →</a>
+  <div class="nav-right">
+    <a href="#contact" class="nav-cta">Start a Project →</a>
+    <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMenu()">Web Development</a>
+  <a href="#cyber" onclick="toggleMenu()">Cybersecurity</a>
+  <a href="#examples" onclick="toggleMenu()">What We Build</a>
+  <a href="#process" onclick="toggleMenu()">Process</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
 
 <!-- HERO -->
 <div class="hero-wrap">
   <div class="hero">
     <div class="hero-badge">
       <span class="dot"></span>
-      Available for freelance work · Durban, South Africa
+      Available for projects in KZN & Remote
     </div>
     <h1>
-      <span class="hi">Hi, I'm</span>
-      <span class="name">Thabiso</span><br>Collin Sengane
+      <span class="line1">We Build It.</span>
+      <span class="line2">We Lock It Down.</span>
     </h1>
-    <p>Durban-based freelance web developer and IT support specialist. I build fast websites, online stores, and web apps for South African businesses — delivered in days, not months.</p>
+    <p class="hero-sub">Fast, beautiful websites for Durban businesses — secured from day one. Web development and cybersecurity under one roof.</p>
     <div class="hero-actions">
-      <a class="btn-gradient" href="#projects">See My Work ↓</a>
-      <a class="btn-wa" href="https://wa.me/27679779340" target="_blank" rel="noopener">💬 WhatsApp Me</a>
-      <a class="btn-outline" href="#contact">Get a Free Quote</a>
+      <a href="#services" class="btn-primary">🌐 Get a Website</a>
+      <a href="https://wa.me/27679779340" target="_blank" class="btn-wa">💬 WhatsApp Us</a>
+      <a href="#cyber" class="btn-outline">🔐 Security Audit</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">48hr</div>
+        <div class="hero-stat-label">Landing page delivery</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2-in-1</div>
+        <div class="hero-stat-label">Only firm in KZN</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">POPIA</div>
+        <div class="hero-stat-label">Compliance audits</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Production apps live</div></div>
-  <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years in tech</div></div>
-  <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Avg. delivery time</div></div>
-  <div class="stat"><div class="stat-num">KZN</div><div class="stat-label">Based in Durban</div></div>
-</div>
+<!-- DIVISION CARDS -->
+<section class="divisions section" id="divisions">
+  <div class="container">
+    <div class="divisions-grid">
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-label">About Me</div>
-  <div class="section-title">Developer. Support Specialist. Problem Solver.</div>
-  <div class="about-grid">
-    <div class="about-bio">
-      <p>I'm <strong>Thabiso Collin Sengane</strong> — a Durban-based freelance web developer with over 5 years of experience across web development, IT technical support, and customer service.</p>
-      <p>My career started at <strong>Intellihost</strong>, a South African web hosting company, where I worked as a second-level technical support engineer and system administrator. I handled cPanel servers, onsite and remote client support, domain management, SSL certificates, and inbound/outbound technical queries. That foundation gave me a deep understanding of how websites and infrastructure actually work — not just how to build them.</p>
-      <p>I've since expanded into <strong>building complete web apps and e-commerce stores</strong> for South African businesses — including Pulsify (event discovery platform), Mzansi Academy (EdTech platform), and Totallydifferent (e-commerce store). I know PayFast, Ozow, and local SA payment gateways inside out.</p>
-      <p>When you hire me, you get someone who can build your site <em>and</em> handle the hosting, domain, email, and technical side long after launch.</p>
-    </div>
-    <div class="experience-list">
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <div class="exp-company">Intellihost</div>
-          <div class="exp-period">2019 – 2022</div>
-        </div>
-        <div class="exp-role">Technical Support Engineer & System Administrator</div>
-        <ul class="exp-bullets">
-          <li>Second-level technical support for hosting clients (cPanel, DNS, email, SSL)</li>
-          <li>System administration — server health, migrations, troubleshooting</li>
-          <li>Onsite and remote client support via chat, phone, and remote desktop</li>
-          <li>Inbound and outbound calls for new and existing clients</li>
-          <li>Achieved cPanel Professional Certification (CPP)</li>
+      <!-- Web Dev -->
+      <div class="div-card div-card-web">
+        <span class="div-badge">Primary Service</span>
+        <div class="div-icon div-icon-web">🌐</div>
+        <h2 class="gradient-text">Web Development</h2>
+        <p>Custom-built websites and web apps tailored for South African businesses. Fast delivery, mobile-first, PayFast ready.</p>
+        <ul class="div-list">
+          <li>Business & portfolio websites</li>
+          <li>E-commerce stores with PayFast/Ozow</li>
+          <li>Booking & appointment systems</li>
+          <li>Landing pages in 48 hours</li>
+          <li>Managed cPanel hosting</li>
+          <li>SEO & performance optimisation</li>
         </ul>
+        <a href="#services" class="div-btn-web">See Web Packages →</a>
       </div>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <div class="exp-company">CCI — Call Center International</div>
-          <div class="exp-period">Jan 2023 – Dec 2024</div>
-        </div>
-        <div class="exp-role">Team Leader / Trainer · AT&amp;T &amp; Frontier Communications</div>
-        <ul class="exp-bullets">
-          <li>Led and trained agents on US telecoms customer service campaigns</li>
-          <li>Inbound and outbound customer service — billing, tech support, escalations</li>
-          <li>Coached team members on product knowledge and call handling</li>
+      <!-- Cybersecurity -->
+      <div class="div-card div-card-cyber">
+        <span class="div-badge div-badge-cyber">Premium Service</span>
+        <div class="div-icon div-icon-cyber">🔐</div>
+        <h2 class="cyber-text">Cybersecurity</h2>
+        <p>We find the holes before attackers do. Web audits, POPIA compliance, penetration testing, and staff training for KZN businesses.</p>
+        <ul class="div-list">
+          <li>Web application security audits</li>
+          <li>POPIA compliance audits</li>
+          <li>Network penetration testing</li>
+          <li>Phishing simulation & staff training</li>
+          <li>WiFi security assessments</li>
+          <li>Monthly security monitoring</li>
         </ul>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <div class="exp-company">Nutun</div>
-          <div class="exp-period">Jan 2024 – Dec 2025</div>
-        </div>
-        <div class="exp-role">Chat Customer Support Specialist</div>
-        <ul class="exp-bullets">
-          <li>Live chat customer support — resolving queries and complaints efficiently</li>
-          <li>Maintained high satisfaction scores across all channels</li>
-        </ul>
+        <a href="#cyber" class="div-btn-cyber">See Security Services →</a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- WHAT I BUILD -->
-<div class="bg-dark">
-<section id="examples" class="full-bleed" style="padding: 96px 0;">
-<div class="inner">
-  <div class="section-label">What I Build</div>
-  <div class="section-title">Website Examples for Every Business</div>
-  <p class="examples-intro">Not sure what kind of site you need? Here are the most common types I build for South African businesses. If yours isn't listed, just ask — I can build almost anything on the web.</p>
-  <div class="examples-grid">
-
-    <div class="example-card c1">
-      <span class="example-emoji">💇</span>
-      <div class="example-title">Salon & Beauty Studio</div>
-      <p class="example-desc">Showcase your services, display a price list, let clients book appointments online, and collect deposits via PayFast. Great for hair salons, nail bars, and spas.</p>
-      <div class="example-tags">
-        <span class="example-tag et-purple">Bookings</span>
-        <span class="example-tag et-pink">Services Page</span>
-        <span class="example-tag et-green">Payments</span>
+<!-- WEB SERVICES -->
+<section class="web-services section" id="services">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Web Development</span>
+      <h2>Websites That Work <span class="gradient-text">For You</span></h2>
+      <p>From a simple landing page to a full e-commerce store — built fast, built right, built secure.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🏢</span>
+        <h3>Business Website</h3>
+        <p>4–6 pages, mobile-first, SEO-ready. Professional online presence for your business with contact form and Google Maps integration.</p>
+        <span class="service-price">From R4,500</span>
+      </div>
+      <div class="service-card featured">
+        <span class="service-icon">🛒</span>
+        <h3>E-Commerce Store</h3>
+        <p>Full online shop with PayFast or Ozow payment integration. Product management, cart, and order tracking built in.</p>
+        <span class="service-price">From R12,000</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📅</span>
+        <h3>Booking System</h3>
+        <p>Appointment and reservation system for clinics, salons, coaches, and service businesses. Automated confirmations included.</p>
+        <span class="service-price">From R8,000</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🚀</span>
+        <h3>Landing Page</h3>
+        <p>Single high-converting page for your product or service. Delivered in 48 hours. Perfect for campaigns and new launches.</p>
+        <span class="service-price">From R2,500</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🔄</span>
+        <h3>Website Redesign</h3>
+        <p>Transform your outdated site into a modern, fast, mobile-optimised experience that converts visitors into customers.</p>
+        <span class="service-price">From R5,000</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🖥️</span>
+        <h3>Hosting & Maintenance</h3>
+        <p>Managed cPanel hosting with SSL, backups, email accounts, and monthly updates. Your site stays fast and online.</p>
+        <span class="service-price">R350–R800/mo</span>
       </div>
     </div>
-
-    <div class="example-card c2">
-      <span class="example-emoji">🍔</span>
-      <div class="example-title">Restaurant & Takeaway</div>
-      <p class="example-desc">Digital menu, online ordering with pickup or delivery, table reservations, and daily specials. Customers order directly from your site — no third-party commission fees.</p>
-      <div class="example-tags">
-        <span class="example-tag et-pink">Online Orders</span>
-        <span class="example-tag et-gold">Menu</span>
-        <span class="example-tag et-green">Payments</span>
-      </div>
-    </div>
-
-    <div class="example-card c3">
-      <span class="example-emoji">🛒</span>
-      <div class="example-title">Online Shop / E-commerce</div>
-      <p class="example-desc">Sell physical or digital products with a product catalogue, cart, and PayFast / Paystack checkout. Includes stock management and order tracking — just like Totallydifferent.</p>
-      <div class="example-tags">
-        <span class="example-tag et-cyan">Products</span>
-        <span class="example-tag et-green">PayFast</span>
-        <span class="example-tag et-purple">Inventory</span>
-      </div>
-    </div>
-
-    <div class="example-card c4">
-      <span class="example-emoji">🏗️</span>
-      <div class="example-title">Construction & Trades</div>
-      <p class="example-desc">Professional site for builders, plumbers, electricians, and contractors. Show your past projects, list your services, and let customers request quotes with a single click.</p>
-      <div class="example-tags">
-        <span class="example-tag et-green">Gallery</span>
-        <span class="example-tag et-cyan">Quote Form</span>
-        <span class="example-tag et-gold">Services</span>
-      </div>
-    </div>
-
-    <div class="example-card c5">
-      <span class="example-emoji">🏠</span>
-      <div class="example-title">Property & Real Estate</div>
-      <p class="example-desc">List properties for sale or rental with photos, prices, and filters. Generate leads through inquiry forms and WhatsApp buttons. Perfect for agents and small agencies.</p>
-      <div class="example-tags">
-        <span class="example-tag et-gold">Listings</span>
-        <span class="example-tag et-purple">Lead Forms</span>
-        <span class="example-tag et-cyan">WhatsApp</span>
-      </div>
-    </div>
-
-    <div class="example-card c6">
-      <span class="example-emoji">💼</span>
-      <div class="example-title">Professional Services</div>
-      <p class="example-desc">For lawyers, accountants, consultants, and coaches. Build credibility with a clean site that outlines your services, shows client testimonials, and lets people book a consultation.</p>
-      <div class="example-tags">
-        <span class="example-tag et-purple">Bookings</span>
-        <span class="example-tag et-cyan">Testimonials</span>
-        <span class="example-tag et-pink">Portfolio</span>
-      </div>
-    </div>
-
-    <div class="example-card c7">
-      <span class="example-emoji">📚</span>
-      <div class="example-title">School, Tutoring & EdTech</div>
-      <p class="example-desc">Online course platforms, tutoring booking systems, school information sites, or student portals with login. I built Mzansi Academy — I know this space well.</p>
-      <div class="example-tags">
-        <span class="example-tag et-cyan">Courses</span>
-        <span class="example-tag et-green">Auth / Login</span>
-        <span class="example-tag et-gold">Payments</span>
-      </div>
-    </div>
-
-    <div class="example-card c8">
-      <span class="example-emoji">🎉</span>
-      <div class="example-title">Events & Entertainment</div>
-      <p class="example-desc">Sell event tickets online, show event schedules on an interactive map, and handle RSVPs. Built exactly for this with Pulsify — South Africa's event discovery app.</p>
-      <div class="example-tags">
-        <span class="example-tag et-pink">Tickets</span>
-        <span class="example-tag et-gold">Maps</span>
-        <span class="example-tag et-purple">Social</span>
-      </div>
-    </div>
-
-    <div class="example-card c9">
-      <span class="example-emoji">🌐</span>
-      <div class="example-title">Any Business Website</div>
-      <p class="example-desc">Don't see your business here? A clean, professional site with your story, services, photos, and contact details works for any business — from churches to gyms to clinics.</p>
-      <div class="example-tags">
-        <span class="example-tag et-purple">Any Industry</span>
-        <span class="example-tag et-cyan">Mobile-Ready</span>
-        <span class="example-tag et-green">Fast Delivery</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-</section>
-</div>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-label">Portfolio</div>
-  <div class="section-title">Apps I've Built</div>
-  <p class="section-sub">Real production apps — not mockups. All deployed, all running.</p>
-  <div class="projects-grid">
-
-    <div class="project-card">
-      <div class="project-thumb pulsify">🎵</div>
-      <div class="project-body">
-        <div class="project-title">Pulsify</div>
-        <p class="project-desc">Event discovery platform for South Africa. Interactive Mapbox map, Supabase auth, ticket purchasing with payment verification, social features (follow, RSVP, likes).</p>
-        <div class="project-tags">
-          <span class="tag">Event Platform</span><span class="tag">Maps</span><span class="tag">Payments</span><span class="tag">Social</span>
-        </div>
-        <div class="project-links">
-          <a class="proj-link live" href="https://pulsefy.co.za" target="_blank" rel="noopener">↗ Live Site</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-thumb mzansi">📚</div>
-      <div class="project-body">
-        <div class="project-title">Mzansi Academy</div>
-        <p class="project-desc">South African online education platform. Course management, user authentication, content delivery — built for local learners and educators.</p>
-        <div class="project-tags">
-          <span class="tag">EdTech</span><span class="tag">Auth</span><span class="tag">Content</span><span class="tag">SA-focused</span>
-        </div>
-        <div class="project-links">
-          <a class="proj-link live" href="https://mzansiacademysa.co.za" target="_blank" rel="noopener">↗ Live Site</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-thumb totallydiff">🛍️</div>
-      <div class="project-body">
-        <div class="project-title">Totallydifferent</div>
-        <p class="project-desc">Premium clothing &amp; hair e-commerce store. Product catalogue, cart, PayFast/Paystack checkout, inventory management, order tracking — fully serverless.</p>
-        <div class="project-tags">
-          <span class="tag">E-commerce</span><span class="tag">Payments</span><span class="tag">Inventory</span><span class="tag">Clothing</span>
-        </div>
-        <div class="project-links">
-          <a class="proj-link secondary" href="#contact">Built for a client</a>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- SERVICES -->
-<div class="bg-dark">
-<section id="services" class="full-bleed" style="padding: 96px 0;">
-<div class="inner">
-  <div class="section-label">What I Offer</div>
-  <div class="section-title">Services &amp; Pricing</div>
-  <p class="section-sub">Fixed-price packages so you always know what you're paying upfront.</p>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🌐</div>
-      <div class="service-title">Business Website</div>
-      <p class="service-desc">Professional site to showcase your business. Home, About, Services, Contact — mobile-ready and fast-loading.</p>
-      <div class="service-price">From R1,500</div>
+<!-- CYBERSECURITY SERVICES -->
+<section class="cyber-section section" id="cyber">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag tag-cyan">Cybersecurity</span>
+      <h2>Protect Your Business <span class="cyber-text">Before It's Too Late</span></h2>
+      <p>Most KZN businesses have never had a security audit. One breach can cost more than your annual revenue. Don't wait.</p>
     </div>
-    <div class="service-card">
-      <div class="service-icon">🛒</div>
-      <div class="service-title">Online Store</div>
-      <p class="service-desc">Full e-commerce with products, cart, and PayFast or Paystack checkout. Ready to take orders from day one.</p>
-      <div class="service-price">From R5,000</div>
+    <div class="cyber-grid">
+      <div class="cyber-card">
+        <span class="cyber-card-icon">🔍</span>
+        <h3>Web Application Security Audit</h3>
+        <p>We test your website for SQL injection, XSS, exposed admin panels, insecure forms, and 50+ known vulnerabilities. Full written report with fixes.</p>
+        <span class="cyber-price">R3,500 – R12,000</span>
+      </div>
+      <div class="cyber-card">
+        <span class="cyber-card-icon">🏛️</span>
+        <h3>POPIA Compliance Audit <span class="popia-badge">⚖️ SA Law</span></h3>
+        <p>South African businesses are legally required to protect customer data under POPIA. We audit your systems and provide a compliance roadmap.</p>
+        <span class="cyber-price">R5,000 – R15,000</span>
+      </div>
+      <div class="cyber-card">
+        <span class="cyber-card-icon">🎯</span>
+        <h3>Network Penetration Test</h3>
+        <p>Authorised simulated attack on your internal network. We find vulnerabilities in routers, servers, and connected devices before hackers do.</p>
+        <span class="cyber-price">R10,000 – R35,000</span>
+      </div>
+      <div class="cyber-card">
+        <span class="cyber-card-icon">🎣</span>
+        <h3>Phishing Simulation & Training</h3>
+        <p>We send a controlled fake phishing campaign to your staff and measure who clicks. Then we train everyone with a report on results.</p>
+        <span class="cyber-price">R4,000 – R12,000</span>
+      </div>
+      <div class="cyber-card">
+        <span class="cyber-card-icon">📡</span>
+        <h3>WiFi Security Audit</h3>
+        <p>Test your office or business WiFi for weak passwords, rogue access points, and vulnerabilities that could expose your entire network.</p>
+        <span class="cyber-price">R2,500 – R6,000</span>
+      </div>
+      <div class="cyber-card">
+        <span class="cyber-card-icon">🛡️</span>
+        <h3>Monthly Security Monitoring</h3>
+        <p>Ongoing threat monitoring, log analysis, and monthly security reports. Your business stays protected 24/7 without hiring a full-time team.</p>
+        <span class="cyber-price">R2,500 – R6,000/mo</span>
+      </div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">📱</div>
-      <div class="service-title">Web App</div>
-      <p class="service-desc">Custom web application with user accounts, database, and business logic. Booking systems, dashboards, platforms.</p>
-      <div class="service-price">From R8,000</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🖥️</div>
-      <div class="service-title">IT / Hosting Support</div>
-      <p class="service-desc">cPanel server management, domain setup, SSL certificates, email config, and remote tech support. Backed by CPP certification.</p>
-      <div class="service-price">From R500/session</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔧</div>
-      <div class="service-title">Monthly Maintenance</div>
-      <p class="service-desc">Ongoing updates, bug fixes, content changes, and feature additions. Keep your site fresh and running smoothly.</p>
-      <div class="service-price">From R800/month</div>
+    <div style="text-align:center;margin-top:48px">
+      <a href="#contact" class="div-btn-cyber" style="font-size:15px;padding:14px 32px">🔐 Request a Free Security Consultation →</a>
     </div>
   </div>
-</div>
 </section>
-</div>
+
+<!-- WHY TCDIGITAL -->
+<section class="why-section section">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag tag-green">Why TcDigital</span>
+      <h2>The Only Firm in KZN <span class="gradient-text">That Does Both</span></h2>
+      <p>We don't just build your website and disappear. We build it secure, host it, and protect it.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(124,58,237,0.12)">⚡</div>
+        <h3>AI-Assisted Speed</h3>
+        <p>We use cutting-edge AI tools in our workflow. Landing pages in 48hrs, full sites in days — not weeks like traditional agencies.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(6,182,212,0.1)">🔐</div>
+        <h3>Built Secure From Day One</h3>
+        <p>Every website we build is hardened against common attacks. Security isn't an afterthought — it's in the foundation.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(16,185,129,0.1)">🇿🇦</div>
+        <h3>Local, SA-Specific</h3>
+        <p>PayFast, Ozow, POPIA compliance, Rand pricing. We understand the SA market. No dollar invoices, no overseas delays.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(245,158,11,0.1)">📊</div>
+        <h3>Full Reports, No Jargon</h3>
+        <p>Every security audit comes with a plain-English report. You understand exactly what was found and how we fix it.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(239,68,68,0.1)">🎯</div>
+        <h3>KZN Focused</h3>
+        <p>Durban is our base. Most cybersecurity firms are in Joburg — we're your local option with national-level service.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(168,85,247,0.12)">🔄</div>
+        <h3>Ongoing Relationship</h3>
+        <p>We don't disappear after launch. Monthly hosting, security monitoring, and updates keep your business protected long-term.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE BUILD -->
+<section class="examples-section section" id="examples">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">What We Build</span>
+      <h2>Industries We <span class="gradient-text">Serve</span></h2>
+      <p>If your business needs an online presence or security protection, we've got you.</p>
+    </div>
+    <div class="examples-grid">
+      <div class="example-card"><span class="example-emoji">🏥</span><div><h4>Clinics & Healthcare</h4><p>Booking systems, patient portals, POPIA-compliant data handling</p></div></div>
+      <div class="example-card"><span class="example-emoji">🛍️</span><div><h4>Retail & E-Commerce</h4><p>Online stores with PayFast, inventory management, order tracking</p></div></div>
+      <div class="example-card"><span class="example-emoji">🍕</span><div><h4>Restaurants & Food</h4><p>Menus, online ordering, table reservations, delivery integration</p></div></div>
+      <div class="example-card"><span class="example-emoji">💼</span><div><h4>Professional Services</h4><p>Law firms, accountants, consultants — credibility-driven sites</p></div></div>
+      <div class="example-card"><span class="example-emoji">🏗️</span><div><h4>Construction & Trade</h4><p>Portfolio sites, quote request forms, project showcases</p></div></div>
+      <div class="example-card"><span class="example-emoji">💅</span><div><h4>Beauty & Wellness</h4><p>Salons, spas, personal trainers — booking and branding sites</p></div></div>
+      <div class="example-card"><span class="example-emoji">🎓</span><div><h4>Schools & Education</h4><p>Enrolment forms, parent portals, learning management systems</p></div></div>
+      <div class="example-card"><span class="example-emoji">🏠</span><div><h4>Real Estate</h4><p>Property listings, virtual tours, lead capture, agent profiles</p></div></div>
+      <div class="example-card"><span class="example-emoji">🔧</span><div><h4>Any Business</h4><p>If you're in KZN and need a site or security — let's talk</p></div></div>
+    </div>
+  </div>
+</section>
 
 <!-- PROCESS -->
-<section id="process" class="bg-subtle">
-  <div class="section-label">How It Works</div>
-  <div class="section-title">Simple 4-Step Process</div>
-  <p class="section-sub">From brief to live site — straightforward, no surprises.</p>
-  <div class="process-steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div>
-        <div class="step-title">You share your brief</div>
-        <p class="step-desc">Tell me what you need, your budget, and your deadline via the form or WhatsApp.</p>
-      </div>
+<section class="process-section section" id="process">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">How It Works</span>
+      <h2>From Brief to <span class="gradient-text">Live in Days</span></h2>
+      <p>A simple, transparent process with no surprises.</p>
     </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <div>
-        <div class="step-title">I send a proposal</div>
-        <p class="step-desc">Fixed price quote, timeline, and exactly what's included — within 24 hours.</p>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Brief</h3>
+        <p>Fill in our project form below. Tell us what you need, your budget, and your deadline.</p>
       </div>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <div>
-        <div class="step-title">You see it before you pay</div>
-        <p class="step-desc">I share a live preview URL. You review and request changes — then pay on approval.</p>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Quote</h3>
+        <p>We review your brief and send a fixed-price quote within 24 hours. No surprises.</p>
       </div>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div>
-        <div class="step-title">Go live</div>
-        <p class="step-desc">Your site is deployed to your domain. I hand over all access and support you on launch.</p>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Build</h3>
+        <p>We design and build. You review and give feedback. We revise until it's perfect.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Launch + Secure</h3>
+        <p>We deploy your site and run a security check. You go live knowing it's protected.</p>
       </div>
     </div>
   </div>
 </section>
-
-<!-- CERTIFICATIONS -->
-<div class="bg-dark">
-<section id="certs" class="full-bleed" style="padding: 96px 0;">
-<div class="inner">
-  <div class="section-label">Qualifications</div>
-  <div class="section-title">Certifications &amp; Education</div>
-  <p class="section-sub">Formal training that backs up the real-world experience.</p>
-  <div class="certs-grid">
-    <div class="cert-card">
-      <div class="cert-icon">🏆</div>
-      <div>
-        <div class="cert-name">cPanel Professional Certification (CPP)</div>
-        <div class="cert-meta">cPanel University · Hosting & Server Admin</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">📜</div>
-      <div>
-        <div class="cert-name">Diploma in Information Technology Support</div>
-        <div class="cert-meta">IT Support &amp; Infrastructure</div>
-        <div class="cert-score">Score: 95%</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">📜</div>
-      <div>
-        <div class="cert-name">Introduction to the Internet of Things (IoT)</div>
-        <div class="cert-meta">Completed January 2025</div>
-        <div class="cert-score">Score: 96%</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">📜</div>
-      <div>
-        <div class="cert-name">Essentials of IT Technician Skills</div>
-        <div class="cert-meta">Completed January 2025</div>
-        <div class="cert-score">Score: 92%</div>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🎓</div>
-      <div>
-        <div class="cert-name">National Senior Certificate (Grade 12)</div>
-        <div class="cert-meta">Roseville Secondary High School</div>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-</div>
 
 <!-- STACK -->
-<section id="stack">
-  <div class="section-label">Technology</div>
-  <div class="section-title">My Stack</div>
-  <p class="section-sub">Battle-tested tools used in all my production apps.</p>
-  <div class="stack-grid">
-    <div class="stack-chip"><span class="icon">▲</span> Vercel</div>
-    <div class="stack-chip"><span class="icon">🗄️</span> Supabase (PostgreSQL)</div>
-    <div class="stack-chip"><span class="icon">💳</span> PayFast / Paystack</div>
-    <div class="stack-chip"><span class="icon">🌐</span> HTML / CSS / JavaScript</div>
-    <div class="stack-chip"><span class="icon">🗺️</span> Mapbox</div>
-    <div class="stack-chip"><span class="icon">🔐</span> Supabase Auth</div>
-    <div class="stack-chip"><span class="icon">📧</span> Resend (Email)</div>
-    <div class="stack-chip"><span class="icon">📦</span> Node.js (Serverless)</div>
-    <div class="stack-chip"><span class="icon">🖥️</span> cPanel / WHM</div>
-    <div class="stack-chip"><span class="icon">🔒</span> SSL / DNS Management</div>
+<section class="stack-section section">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:40px">
+      <span class="tag">Tech Stack</span>
+      <h2 style="font-size:28px">Tools We Use</h2>
+    </div>
+    <div class="stack-chips">
+      <span class="chip">HTML / CSS / JS</span>
+      <span class="chip">React</span>
+      <span class="chip">Node.js</span>
+      <span class="chip">Supabase</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">Vercel</span>
+      <span class="chip">cPanel</span>
+      <span class="chip">PayFast</span>
+      <span class="chip">Ozow</span>
+      <span class="chip">Kali Linux</span>
+      <span class="chip">Burp Suite</span>
+      <span class="chip">Metasploit</span>
+      <span class="chip">OWASP ZAP</span>
+      <span class="chip">Nmap</span>
+      <span class="chip">GoPhish</span>
+      <span class="chip">Nikto</span>
+      <span class="chip">Aircrack-ng</span>
+      <span class="chip">Wireshark</span>
+    </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<div class="bg-dark">
-<section id="contact" class="full-bleed" style="padding: 96px 0;">
-<div class="inner">
-  <div class="section-label">Get In Touch</div>
-  <div class="section-title">Let's Build Something</div>
-  <div class="contact-wrap">
-
-    <div class="contact-info">
-      <h3>Ready to start your project?</h3>
-      <p>Fill in the form with your idea and I'll come back to you within 24 hours with a fixed-price quote. Or just WhatsApp me directly — I'm always available.</p>
-      <div class="contact-detail">📍 <span>Durban, KwaZulu-Natal · Available remotely nationwide</span></div>
-      <div class="contact-detail">📧 <a href="mailto:thacollin2@gmail.com">thacollin2@gmail.com</a></div>
-      <div class="contact-detail">📞 <a href="tel:+27679779340">067 977 9340</a></div>
-      <div class="contact-detail">💬 <a class="wa" href="https://wa.me/27679779340" target="_blank" rel="noopener">WhatsApp: 067 977 9340</a></div>
-      <div class="contact-detail">⚡ <span>48–72 hour typical delivery</span></div>
-      <div class="sa-badge">
-        <div class="sa-badge-label">SA-First Developer</div>
-        <p>I know PayFast, Ozow, and local SA payment gateways. Your customers pay in Rands — no international complications. And I'm on WhatsApp, so you can always reach me fast.</p>
+<section class="contact-section section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <span class="tag" style="margin-bottom:20px;display:inline-flex">Let's Talk</span>
+        <h2>Ready to Build or <span class="gradient-text">Secure Your Business?</span></h2>
+        <p>Fill in the form and we'll respond within 24 hours. Or reach out directly — WhatsApp is fastest.</p>
+        <div class="contact-links">
+          <a href="https://wa.me/27679779340" target="_blank" class="contact-link">
+            <span class="contact-link-icon">💬</span>
+            <div><small>WhatsApp (Fastest)</small><strong>067 977 9340</strong></div>
+          </a>
+          <a href="tel:+27679779340" class="contact-link">
+            <span class="contact-link-icon">📞</span>
+            <div><small>Call Us</small><strong>067 977 9340</strong></div>
+          </a>
+          <a href="mailto:thacollin2@gmail.com" class="contact-link">
+            <span class="contact-link-icon">✉️</span>
+            <div><small>Email</small><strong>thacollin2@gmail.com</strong></div>
+          </a>
+          <div class="contact-link" style="cursor:default">
+            <span class="contact-link-icon">📍</span>
+            <div><small>Location</small><strong>Durban, KwaZulu-Natal, SA</strong></div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="contact-form">
-      <form id="contact-form" onsubmit="submitForm(event)" novalidate>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name *</label>
-            <input type="text" name="name" placeholder="Sipho Dlamini" required>
-          </div>
-          <div class="form-group">
-            <label>Email Address *</label>
-            <input type="email" name="email" placeholder="sipho@business.co.za" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>What does your business do? *</label>
-          <textarea name="business" placeholder="e.g. We sell handmade candles in Durban and want to take orders online." required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>What should people be able to do on your site? <span style="font-weight:500;text-transform:none;letter-spacing:0;font-size:11px;opacity:0.7">(tick all that apply)</span></label>
-          <div class="check-grid">
-            <label class="check-option"><input type="checkbox" name="goal" value="Learn about your business and contact you"> Learn about you &amp; contact you</label>
-            <label class="check-option"><input type="checkbox" name="goal" value="Buy products online"> Buy products online</label>
-            <label class="check-option"><input type="checkbox" name="goal" value="Book an appointment or service"> Book an appointment</label>
-            <label class="check-option"><input type="checkbox" name="goal" value="Create an account and log in"> Create an account / log in</label>
-            <label class="check-option"><input type="checkbox" name="goal" value="Other"> Other</label>
-          </div>
-          <textarea name="goal_other" placeholder="If you ticked 'Other', describe here…" style="margin-top:10px; min-height:52px"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Which pages do you need? <span style="font-weight:500;text-transform:none;letter-spacing:0;font-size:11px;opacity:0.7">(tick all that apply)</span></label>
-          <div class="check-grid">
-            <label class="check-option"><input type="checkbox" name="page" value="Home"> Home</label>
-            <label class="check-option"><input type="checkbox" name="page" value="About Us"> About Us</label>
-            <label class="check-option"><input type="checkbox" name="page" value="Services / Products"> Services / Products</label>
-            <label class="check-option"><input type="checkbox" name="page" value="Gallery / Portfolio"> Gallery</label>
-            <label class="check-option"><input type="checkbox" name="page" value="Contact"> Contact</label>
-            <label class="check-option"><input type="checkbox" name="page" value="Blog"> Blog</label>
-            <label class="check-option"><input type="checkbox" name="page" value="Other"> Other</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Do you need to accept payments?</label>
-          <div class="check-grid">
-            <label class="check-option"><input type="radio" name="payments" value="No payments needed"> No</label>
-            <label class="check-option"><input type="radio" name="payments" value="Yes – physical products"> Yes – physical products</label>
-            <label class="check-option"><input type="radio" name="payments" value="Yes – services / bookings"> Yes – services / bookings</label>
-            <label class="check-option"><input type="radio" name="payments" value="Yes – digital downloads"> Yes – digital downloads</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Sites you like the look of</label>
-          <textarea name="style_refs" placeholder="Paste 2–3 website links. Doesn't have to be your industry — just sites whose style you like." style="min-height:64px"></textarea>
-          <p class="form-note">This helps me match the design to your taste without guessing.</p>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Do you have a logo &amp; brand colours?</label>
-            <div class="check-grid" style="flex-direction:column; gap:8px; margin-top:8px;">
-              <label class="check-option"><input type="radio" name="branding" value="Yes – I will send logo and colours"> Yes, I'll send them</label>
-              <label class="check-option"><input type="radio" name="branding" value="No – use clean professional defaults"> No, use defaults</label>
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name *</label>
+              <input type="text" id="fname" placeholder="John Dlamini" required>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" id="femail" placeholder="john@business.co.za" required>
             </div>
           </div>
           <div class="form-group">
-            <label>Who will write the text?</label>
-            <div class="check-grid" style="flex-direction:column; gap:8px; margin-top:8px;">
-              <label class="check-option"><input type="radio" name="content" value="I will send all the text"> I'll send all text</label>
-              <label class="check-option"><input type="radio" name="content" value="Please write it for me"> Write it for me</label>
-              <label class="check-option"><input type="radio" name="content" value="A mix"> Mix</label>
-            </div>
+            <label>Business Name</label>
+            <input type="text" id="fbusiness" placeholder="Your Business (optional)">
           </div>
-        </div>
-
-        <div class="form-row">
           <div class="form-group">
-            <label>Deadline</label>
-            <input type="date" name="deadline">
+            <label>Service Needed *</label>
+            <select id="fservice" required>
+              <option value="">— Select a service —</option>
+              <optgroup label="🌐 Web Development">
+                <option>Business Website</option>
+                <option>E-Commerce Store</option>
+                <option>Booking System</option>
+                <option>Landing Page</option>
+                <option>Website Redesign</option>
+                <option>Hosting & Maintenance</option>
+              </optgroup>
+              <optgroup label="🔐 Cybersecurity">
+                <option>Web Application Security Audit</option>
+                <option>POPIA Compliance Audit</option>
+                <option>Network Penetration Test</option>
+                <option>Phishing Simulation & Training</option>
+                <option>WiFi Security Audit</option>
+                <option>Monthly Security Monitoring</option>
+              </optgroup>
+              <option>Not sure — need advice</option>
+            </select>
           </div>
           <div class="form-group">
             <label>Budget Range</label>
-            <select name="budget">
-              <option value="">Prefer not to say</option>
-              <option>Under R2,000</option>
-              <option>R2,000 – R5,000</option>
-              <option>R5,000 – R10,000</option>
-              <option>R10,000 – R20,000</option>
-              <option>R20,000+</option>
+            <select id="fbudget">
+              <option value="">— Select budget —</option>
+              <option>Under R5,000</option>
+              <option>R5,000 – R15,000</option>
+              <option>R15,000 – R35,000</option>
+              <option>R35,000+</option>
+              <option>Monthly retainer</option>
             </select>
           </div>
-        </div>
-
-        <button class="submit-btn" type="submit" id="submit-btn">Send Project Brief →</button>
-        <div class="form-error" id="form-error"></div>
-        <div class="form-success" id="form-success">✅ Brief received! I'll reply within 24 hours with a quote. You can also WhatsApp me at 067 977 9340.</div>
-      </form>
+          <div class="form-group">
+            <label>Tell Us More *</label>
+            <textarea id="fmessage" placeholder="Describe what you need, your deadline, and any other details..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">
+            <span>Send Message</span> <span>→</span>
+          </button>
+          <div class="form-success" id="formSuccess">
+            ✅ Message sent! We'll reply within 24 hours.
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 </section>
-</div>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-name">Thabiso Collin Sengane</div>
-  <div class="footer-tagline">Web Developer &amp; IT Support Specialist · Durban, KZN</div>
-  <div class="footer-links">
-    <a href="mailto:thacollin2@gmail.com">Email</a>
-    <a href="https://wa.me/27679779340" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="https://pulsefy.co.za" target="_blank" rel="noopener">Pulsify</a>
-    <a href="https://mzansiacademysa.co.za" target="_blank" rel="noopener">Mzansi Academy</a>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">TcDigital</div>
+      <div class="footer-copy">© 2025 TcDigital · Durban, KwaZulu-Natal, South Africa</div>
+      <div class="footer-links">
+        <a href="#services">Web Dev</a>
+        <a href="#cyber">Security</a>
+        <a href="#contact">Contact</a>
+        <a href="https://wa.me/27679779340" target="_blank">WhatsApp</a>
+      </div>
+    </div>
   </div>
 </footer>
 
 <script>
   const SUPABASE_URL = 'https://cjzewfvtdayjgjdpdmln.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqemV3ZnZ0ZGF5amdqZHBkbWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NTg0MjYsImV4cCI6MjA5MTQzNDQyNn0.KQ80RmaB6cfA0dkcT-pdTe53fwyUrrIBeVJtToWF_Mk';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqemV3ZnZ0ZGF5amdqZHBkbWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3NTQzODMsImV4cCI6MjA2NTMzMDM4M30.nhO8RbCIGkUxrkDpJqNsEEsMKdBMbXb64YkRFGxFB7w';
 
-  async function submitForm(e) {
+  // mobile menu
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('nav');
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(10,10,15,0.95)'
+      : 'rgba(10,10,15,0.8)';
+  });
+
+  // contact form
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const form = e.target;
-    const btn = document.getElementById('submit-btn');
-    const errEl = document.getElementById('form-error');
-    const successEl = document.getElementById('form-success');
-
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const business = form.business.value.trim();
-
-    if (!name || !email || !business) {
-      errEl.textContent = 'Please fill in your name, email, and business description.';
-      errEl.style.display = 'block';
-      return;
-    }
-    errEl.style.display = 'none';
-
-    const goals = [...form.querySelectorAll('input[name="goal"]:checked')].map(i => i.value).join(', ') || null;
-    const pages = [...form.querySelectorAll('input[name="page"]:checked')].map(i => i.value).join(', ') || null;
-    const payments = (form.querySelector('input[name="payments"]:checked') || {}).value || null;
-    const branding = (form.querySelector('input[name="branding"]:checked') || {}).value || null;
-    const content  = (form.querySelector('input[name="content"]:checked') || {}).value || null;
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<span>Sending…</span>';
+    btn.disabled = true;
 
     const payload = {
-      name, email, business, goals,
-      goal_other: form.goal_other.value.trim() || null,
-      pages, payments,
-      style_refs: form.style_refs.value.trim() || null,
-      branding, content,
-      deadline: form.deadline.value || null,
-      budget: form.budget.value || null
+      name: document.getElementById('fname').value.trim(),
+      email: document.getElementById('femail').value.trim(),
+      business: document.getElementById('fbusiness').value.trim() || null,
+      service: document.getElementById('fservice').value,
+      budget: document.getElementById('fbudget').value || null,
+      message: document.getElementById('fmessage').value.trim(),
     };
-
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
 
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/contact_submissions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Prefer': 'return=minimal'
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+          'Prefer': 'return=minimal',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error(`Server error ${res.status}`);
-
-      form.reset();
-      btn.style.display = 'none';
-      successEl.style.display = 'block';
-      successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    } catch (err) {
-      errEl.textContent = 'Something went wrong. Please WhatsApp me at 067 977 9340 or email thacollin2@gmail.com';
-      errEl.style.display = 'block';
+      if (res.ok || res.status === 201) {
+        document.getElementById('formSuccess').style.display = 'block';
+        this.reset();
+        btn.innerHTML = '<span>✅ Sent!</span>';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      btn.innerHTML = '<span>Failed — try WhatsApp instead</span>';
       btn.disabled = false;
-      btn.textContent = 'Send Project Brief →';
     }
-  }
+  });
 </script>
 </body>
 </html>
