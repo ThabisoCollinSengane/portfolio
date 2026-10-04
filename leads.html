@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leads Dashboard — TC.dev</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f; --bg2: #12121a; --surface: #1e1e2e; --surface2: #262638;
+    --border: #2e2e44; --white: #f0f0ff; --muted: #8b8ba8;
+    --accent: #7c3aed; --accent2: #a855f7; --green: #10b981; --gold: #f59e0b;
+    --red: #ef4444; --cyan: #06b6d4; --font: system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--white); min-height: 100vh; }
+
+  header {
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .logo { font-weight: 900; font-size: 18px; background: linear-gradient(135deg,#7c3aed,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+  .header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .stat-pill { background: var(--surface); border: 1px solid var(--border); padding: 7px 14px; border-radius: 24px; font-size: 13px; font-weight: 600; }
+  .stat-pill span { color: var(--accent2); }
+  button, .btn {
+    padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer;
+    border: none; font-family: var(--font); transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary { background: linear-gradient(135deg,#7c3aed,#a855f7); color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,0.35); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(124,58,237,0.5); }
+  .btn-ghost { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-ghost.active { border-color: var(--accent2); color: var(--accent2); background: rgba(124,58,237,0.12); }
+
+  .controls { padding: 20px 32px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); background: var(--bg2); }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-wrap input {
+    width: 100%; padding: 10px 14px 10px 38px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--white); font-size: 14px; font-family: var(--font);
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus { outline: none; border-color: var(--accent2); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
+
+  main { padding: 28px 32px; max-width: 1200px; margin: 0 auto; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .stat-card-num { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; background: linear-gradient(135deg,#7c3aed,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-card-label { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .leads-grid { display: flex; flex-direction: column; gap: 12px; }
+  .lead-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 22px; transition: border-color 0.2s, transform 0.2s; cursor: default;
+    position: relative;
+  }
+  .lead-card:hover { border-color: var(--border-light, #3a3a54); transform: translateX(3px); }
+  .lead-card.new-lead { border-left: 3px solid var(--accent2); }
+  .lead-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .lead-source { font-size: 12px; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .lead-meta { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .score-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .score-high   { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+  .score-medium { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+  .score-low    { background: rgba(107,114,128,0.2); color: var(--muted); border: 1px solid var(--border); }
+  .lead-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; line-height: 1.35; }
+  .lead-title a { color: inherit; text-decoration: none; }
+  .lead-title a:hover { color: var(--accent2); }
+  .lead-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .lead-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .lead-tag { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(124,58,237,0.12); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+  .lead-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+  .lead-time { font-size: 12px; color: var(--muted); }
+  .lead-actions { display: flex; gap: 6px; }
+
+  .empty { text-align: center; padding: 80px 32px; color: var(--muted); }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty h3 { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+
+  #toast {
+    position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border);
+    padding: 12px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 99;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    header, .controls, main { padding-left: 16px; padding-right: 16px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">TC.dev Leads</a>
+  <div class="header-right">
+    <div class="stat-pill">Total: <span id="h-total">—</span></div>
+    <div class="stat-pill">New today: <span id="h-today">—</span></div>
+    <button class="btn btn-primary" onclick="runScraper()" id="scrape-btn">🔍 Run Scraper Now</button>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="Search leads…" oninput="filterLeads()">
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap" id="source-filters">
+    <button class="btn btn-ghost active" onclick="setFilter('all',this)">All</button>
+    <button class="btn btn-ghost" onclick="setFilter('reddit',this)">🟠 Reddit</button>
+    <button class="btn btn-ghost" onclick="setFilter('facebook',this)">🔵 Facebook</button>
+    <button class="btn btn-ghost" onclick="setFilter('tiktok',this)">🎵 TikTok</button>
+    <button class="btn btn-ghost" onclick="setFilter('hackernews',this)">🟡 HN</button>
+    <button class="btn btn-ghost" onclick="setFilter('remot',this)">🌐 Remote</button>
+  </div>
+  <select id="sort-select" onchange="sortLeads()" style="background:var(--surface);color:var(--white);border:1px solid var(--border);padding:9px 12px;border-radius:8px;font-size:13px;font-family:var(--font)">
+    <option value="score">Sort: Relevance</option>
+    <option value="date">Sort: Newest</option>
+  </select>
+</div>
+
+<main>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-card-num" id="s-total">—</div><div class="stat-card-label">Total Leads</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="s-today">—</div><div class="stat-card-label">Found Today</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="s-high">—</div><div class="stat-card-label">High Relevance</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="s-reddit">—</div><div class="stat-card-label">From Reddit</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="s-fb">—</div><div class="stat-card-label">From Facebook</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="s-tt">—</div><div class="stat-card-label">From TikTok</div></div>
+  </div>
+
+  <div class="leads-grid" id="leads-grid">
+    <div class="empty"><div class="empty-icon">⏳</div><h3>Loading leads…</h3></div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://cjzewfvtdayjgjdpdmln.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqemV3ZnZ0ZGF5amdqZHBkbWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NTg0MjYsImV4cCI6MjA5MTQzNDQyNn0.KQ80RmaB6cfA0dkcT-pdTe53fwyUrrIBeVJtToWF_Mk';
+// IMPORTANT: Replace with your SCRAPER_TOKEN env var value to enable Run Scraper button
+const SCRAPER_TOKEN_CLIENT = '';
+
+let allLeads = [];
+let activeFilter = 'all';
+
+function toast(msg, duration = 3000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
+
+function isToday(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth() && d.getDate()===now.getDate();
+}
+
+function scoreClass(score) {
+  if (score >= 20) return 'score-high';
+  if (score >= 12) return 'score-medium';
+  return 'score-low';
+}
+
+function sourceEmoji(source) {
+  if (source.includes('reddit'))  return '🟠';
+  if (source.includes('facebook')) return '🔵';
+  if (source.includes('tiktok'))  return '🎵';
+  if (source.includes('twitter')) return '🐦';
+  if (source.includes('hacker'))  return '🟡';
+  return '🌐';
+}
+
+function renderLeads(leads) {
+  const grid = document.getElementById('leads-grid');
+  if (!leads.length) {
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><h3>No leads match your filter</h3><p style="margin-top:8px">Try changing the filter or run the scraper to find new leads.</p></div>`;
+    return;
+  }
+  grid.innerHTML = leads.map(l => {
+    const isNew = isToday(l.found_at);
+    return `
+    <div class="lead-card${isNew?' new-lead':''}">
+      <div class="lead-top">
+        <div class="lead-source">${sourceEmoji(l.source)} ${l.source}${l.author ? ` · @${l.author}` : ''}</div>
+        <div class="lead-meta">
+          ${isNew ? '<span style="background:rgba(124,58,237,0.15);color:#a855f7;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid rgba(124,58,237,0.3)">NEW</span>' : ''}
+          <span class="score-badge ${scoreClass(l.score)}">⭐ ${l.score}</span>
+        </div>
+      </div>
+      <div class="lead-title"><a href="${l.url}" target="_blank" rel="noopener">${l.title}</a></div>
+      ${l.body ? `<div class="lead-body">${l.body.slice(0, 220)}${l.body.length > 220 ? '…' : ''}</div>` : ''}
+      <div class="lead-tags">${(l.relevance_tags || []).slice(0, 5).map(t => `<span class="lead-tag">${t}</span>`).join('')}</div>
+      <div class="lead-footer">
+        <span class="lead-time">🕐 ${timeAgo(l.found_at)}</span>
+        <div class="lead-actions">
+          <a class="btn btn-ghost" href="${l.url}" target="_blank" rel="noopener" style="padding:6px 14px;font-size:12px">View Post ↗</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterLeads() {
+  const q = document.getElementById('search').value.toLowerCase();
+  let filtered = allLeads;
+  if (activeFilter !== 'all') filtered = filtered.filter(l => l.source.includes(activeFilter));
+  if (q) filtered = filtered.filter(l => (l.title+' '+(l.body||'')+(l.relevance_tags||[]).join(' ')).toLowerCase().includes(q));
+  renderLeads(filtered);
+}
+
+function setFilter(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('#source-filters .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterLeads();
+}
+
+function sortLeads() {
+  const v = document.getElementById('sort-select').value;
+  allLeads.sort((a, b) => v === 'score' ? b.score - a.score : new Date(b.found_at) - new Date(a.found_at));
+  filterLeads();
+}
+
+function updateStats() {
+  const total = allLeads.length;
+  const today = allLeads.filter(l => isToday(l.found_at)).length;
+  const high = allLeads.filter(l => l.score >= 20).length;
+  const reddit = allLeads.filter(l => l.source.includes('reddit')).length;
+  const fb = allLeads.filter(l => l.source.includes('facebook')).length;
+  const tt = allLeads.filter(l => l.source.includes('tiktok')).length;
+  document.getElementById('h-total').textContent = total;
+  document.getElementById('h-today').textContent = today;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-today').textContent = today;
+  document.getElementById('s-high').textContent = high;
+  document.getElementById('s-reddit').textContent = reddit;
+  document.getElementById('s-fb').textContent = fb;
+  document.getElementById('s-tt').textContent = tt;
+}
+
+async function loadLeads() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/leads?select=*&order=found_at.desc&limit=200`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    allLeads = await res.json();
+    updateStats();
+    sortLeads();
+  } catch (e) {
+    document.getElementById('leads-grid').innerHTML = `<div class="empty"><div class="empty-icon">❌</div><h3>Failed to load leads</h3><p>${e.message}</p></div>`;
+  }
+}
+
+async function runScraper() {
+  const btn = document.getElementById('scrape-btn');
+  btn.innerHTML = '<span class="spinner"></span> Scraping…';
+  btn.disabled = true;
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (SCRAPER_TOKEN_CLIENT) headers['x-scraper-token'] = SCRAPER_TOKEN_CLIENT;
+    const res = await fetch('/api/scrape-leads', { method: 'GET', headers });
+    const data = await res.json();
+    if (data.success) {
+      toast(`✅ Found ${data.total_found} posts · ${data.new_leads} new leads saved`);
+      await loadLeads();
+    } else {
+      toast('❌ Scraper error: ' + data.error);
+    }
+  } catch (e) {
+    toast('❌ ' + e.message);
+  }
+  btn.innerHTML = '🔍 Run Scraper Now';
+  btn.disabled = false;
+}
+
+// Auto-refresh every 10 minutes
+loadLeads();
+setInterval(loadLeads, 10 * 60 * 1000);
+</script>
+</body>
+</html>
